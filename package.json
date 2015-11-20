@@ -1,0 +1,15 @@
+{
+  "name": "jst",
+  "version": "1.0.0",
+  "description": "",
+  "main": "jst.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Victor Alveflo <victor.alveflo@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "html": "0.0.10",
+    "jison": "^0.4.15"
+  }
+}
