@@ -1,6 +1,4 @@
-# ✔
-
-
+# jst
 C-style syntaxed expressive template engine for node inspired by Jade.
 
 ## status
@@ -37,7 +35,7 @@ html {
 }
 ```
 
-the example above yields:
+the example above outputs:
 ```html
 <html>
     <head>
@@ -58,7 +56,6 @@ the example above yields:
             <p>A paragraph</p>
         </div>
     </body>
-
 </html>
 
 ```
