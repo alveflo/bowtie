@@ -1,5 +1,5 @@
 function getTagName(tag) {
-  var regex = /^[a-zA-Z]+/;
+  var regex = /^[!|a-zA-Z]+/;
   var match = regex.exec(tag);
   if (match != null) {
     return match[0];
@@ -52,6 +52,8 @@ module.exports = {
     if (body) {
       return '<'+tagName+ids+classes+attributes+'>'+body+'</'+tagName+'>';
     } else {
+      if (tagName.startsWith('!'))
+        return '<'+tagName+ids+classes+attributes+'>';
       return '<'+tagName+ids+classes+attributes+' />';
     }
   }

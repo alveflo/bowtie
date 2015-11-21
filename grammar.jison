@@ -6,7 +6,7 @@
 %%
 \s+                   /* skip whitespace */
 [0-9]+("."[0-9]+)?\b  return 'NUMBER';
-[a-zA-Z][^:\s{}]*     return 'IDENT';
+[!|a-zA-Z][^:\s{};]*  return 'TagIdentifier';
 \".*\"                return 'STRING';
 "*"                   return '*';
 "/"                   return '/';
@@ -22,10 +22,11 @@
 "="                   return '=';
 "%"                   return '%';
 ":"                   return ':';
+";"                   return ';';
+'!'                   return '!';
 "PI"                  return 'PI';
 "E"                   return 'E';
 <<EOF>>               return 'EOF';
-
 
 /lex
 
@@ -40,38 +41,53 @@
 
 %% /* language grammar */
 PROGRAM
-  : ExpressionList EOF
+  : StatementList EOF
     {return $1[0];}
   ;
 
+Statement
+  : OneLineTagStatement
+  | BlockTagStatement
+  | ClientScriptBlockPlaceholder
+  ;
+
 Expression
-  : IDENT ':' Expression
-    {$$ = tagParser.parseTag($1, $3)}
-  | IDENT Block
-    {$$ = tagParser.parseTag($1, $2)}
-  | IDENT
-    {$$ = tagParser.selfClosingTag(yytext) }
-  | STRING
+  : STRING
     {$$ = $1.substring(1, $1.length - 1)}
   | NUMBER
     {$$ = Number(yytext)}
-  | '<' '%' '=' NUMBER '=' '%' '>'
-    {$$ = $1+$2+$3+$4+$5+$6+$7}
   ;
 
-ExpressionList
-  : ExpressionList Expression
+StatementList
+  : StatementList Statement
     {
       $$ = $1.concat($2)
     }
   | { $$ = [] }
   ;
 
+OneLineTagStatement
+  : OneLineTagStatement Statement
+    {$$ = $1.concat($2)}
+  | TagIdentifier ':' Expression
+    {$$ = tagParser.parseTag($1, $3)}
+  | TagIdentifier
+    {$$ = tagParser.parseTag($1)}
+  ;
+
+BlockTagStatement
+  : TagIdentifier Block
+    {$$ = tagParser.parseTag($1, $2)}
+  ;
+
+ClientScriptBlockPlaceholder
+  : "<" "%" "=" Expression "=" "%" ">"
+    {$$ = $1+$2+$3+$4+$5+$6+$7}
+  ;
+
 Block
-  : "{" ExpressionList "}"
-    {
-      $$ = $2.join('')
-    }
+  : "{" StatementList "}"
+    {$$ = $2.join('')}
   ;
 
 
