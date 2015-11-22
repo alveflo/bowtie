@@ -50,11 +50,11 @@ module.exports = {
     var classes = getClasses(tag);
     var ids = getIds(tag);
     if (body) {
-      return '<'+tagName+ids+classes+attributes+'>'+body+'</'+tagName+'>';
+      return '<'+tagName+ids+classes+attributes+'>'+body+'</'+tagName+'> ';
     } else {
       if (tagName.startsWith('!'))
-        return '<'+tagName+ids+classes+attributes+'>';
-      return '<'+tagName+ids+classes+attributes+' />';
+        return '<'+tagName+ids+classes+attributes+'> ';
+      return '<'+tagName+ids+classes+attributes+' /> ';
     }
   }
 };
