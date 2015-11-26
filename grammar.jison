@@ -11,8 +11,8 @@
 'in'                  return 'IN';
 [0-9]+("."[0-9]+)?\b  return 'NUMBER';
 [!|a-zA-Z][^:\s{};]*  return 'Identifier';
-\$[a-zA-Z][^:\s{};]*  return 'VariableIdentifier';
-\".*\"                return 'STRING';
+\$[a-zA-Z]\w*         return 'VariableIdentifier';
+\"[^\"]*\"                return 'STRING';
 "*"                   return '*';
 "/"                   return '/';
 "-"                   return '-';
@@ -29,7 +29,8 @@
 ":"                   return ':';
 ";"                   return ';';
 "."                   return '.';
-'!'                   return '!';
+","                   return ',';
+"!"                   return '!';
 "PI"                  return 'PI';
 "E"                   return 'E';
 <<EOF>>               return 'EOF';
@@ -60,7 +61,6 @@ PROGRAM
       while (match = regex.exec(str)) {
         tempstr = str;
         var a = match[1];
-        console.log(a);
         try {
           tempstr = tempstr.replace(match[0], eval(a));
         } catch (ex) {
@@ -117,6 +117,8 @@ Statement
   | ClientScriptBlockPlaceholder
   | LoopStatement
   | IfElseStatement
+  | MixinDeclarationStatement
+  | MixinCallStatement
   ;
 
 StatementList
@@ -127,16 +129,21 @@ StatementList
   | { $$ = [] }
   ;
 
-StringStatement
-  : StringStatement STRING
-    { $$ = $1.concat($2.substring(1, $2.length-1)) }
-  | { $$ = [] }
+Content
+  : Content "+" STRING
+    { $$ = $1.concat($3.substring(1, $3.length-1)) }
+  | Content "+" VariableIdentifier
+    { $$ = $3 }
+  | STRING
+    { $$ = [$1.substring(1, $1.length-1)] }
+  | VariableIdentifier
+    { $$ = [$1] }
   ;
 
 OneLineTagStatement
   : OneLineTagStatement Statement
     {$$ = $1.concat($2)}
-  | Identifier ':' StringStatement
+  | Identifier ':' Content
     {$$ = tagParser.parseTag($1, $3.join(' '))}
   | Identifier
     {$$ = tagParser.parseTag($1)}
@@ -200,8 +207,35 @@ ForLoopNoIterationVariable
     }
   ;
 
+MixinCallStatement
+  : VariableIdentifier "(" ArgumentList ")"
+    {
+      $$ = mixinParser.evalMixin($1, $3);
+    }
+  ;
+
+MixinDeclarationStatement
+  : VariableIdentifier "-" ">" "(" ArgumentList ")" BlockStatement
+    {
+      $$ = mixinParser.newMixin($1, $5, $7);
+    }
+  ;
+
+ArgumentList
+  : ArgumentList "," VariableIdentifier
+    { $$ = $1.concat($3) }
+  | ArgumentList "," Content
+    { $$ = $1.concat($3) }
+  | VariableIdentifier
+    { $$ = [$1] }
+  | Content
+    { $$ = [$1] }
+  ;
+
 %%
 var variableBox = {};
 var tagParser = require(process.cwd() + '/parsers/tagparser.js');
 var loopParser = require(process.cwd() + '/parsers/loopparser.js');
+var mixinParserObj = require(process.cwd() + '/parsers/mixinparser.js');
+var mixinParser = new mixinParserObj();
 var ifParser = require(process.cwd() + '/parsers/ifelseparser.js');
