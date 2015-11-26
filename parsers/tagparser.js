@@ -52,7 +52,7 @@ module.exports = {
     if (body) {
       return '<'+tagName+ids+classes+attributes+'>'+body+'</'+tagName+'> ';
     } else {
-      if (tagName.startsWith('!'))
+      if (tagName.indexOf('!') === 0)
         return '<'+tagName+ids+classes+attributes+'> ';
       return '<'+tagName+ids+classes+attributes+' /> ';
     }

@@ -10,7 +10,7 @@
 "for"                 return 'FOR';
 'in'                  return 'IN';
 [0-9]+("."[0-9]+)?\b  return 'NUMBER';
-[!|a-zA-Z][^:\s{};]*  return 'TagIdentifier';
+[!|a-zA-Z][^:\s{};]*  return 'Identifier';
 \$[a-zA-Z][^:\s{};]*  return 'VariableIdentifier';
 \".*\"                return 'STRING';
 "*"                   return '*';
@@ -78,20 +78,45 @@ ProgramList
     {$$ = $1}
   ;
 
+Operator
+  : "=" "="
+    {$$ = "=="}
+  | "=" "=" "="
+    {$$ = "==="}
+  | "!""="
+    {$$ = "!="}
+  | ">"
+    {$$ = ">"}
+  | "<"
+    {$$ = "<"}
+  | ">" "="
+    {$$ = ">="}
+  | "<" "="
+    {$$ = "<="}
+  ;
+
+UnaryOperator
+  : "!"
+    {$$ = "!"}
+  ;
 Constant
   : STRING
-    {$$ = $1.substring(1, $1.length - 1)}
+    {$$ = $1}
   | NUMBER
     {$$ = Number(yytext)}
   ;
 
+Expression
+  : Identifier
+  | Constant
+  ;
 
 Statement
   : OneLineTagStatement
   | BlockTagStatement
   | ClientScriptBlockPlaceholder
-  | VariableAssignmentStatement
   | LoopStatement
+  | IfElseStatement
   ;
 
 StatementList
@@ -102,17 +127,23 @@ StatementList
   | { $$ = [] }
   ;
 
+StringStatement
+  : StringStatement STRING
+    { $$ = $1.concat($2.substring(1, $2.length-1)) }
+  | { $$ = [] }
+  ;
+
 OneLineTagStatement
   : OneLineTagStatement Statement
     {$$ = $1.concat($2)}
-  | TagIdentifier ':' Constant
-    {$$ = tagParser.parseTag($1, $3)}
-  | TagIdentifier
+  | Identifier ':' StringStatement
+    {$$ = tagParser.parseTag($1, $3.join(' '))}
+  | Identifier
     {$$ = tagParser.parseTag($1)}
   ;
 
 BlockTagStatement
-  : TagIdentifier BlockStatement
+  : Identifier BlockStatement
     {$$ = tagParser.parseTag($1, $2)}
   ;
 
@@ -126,18 +157,6 @@ BlockStatement
     {$$ = $2.join(' ')}
   ;
 
-VariableAssignmentStatement
-  : VariableAssignmentExpression
-  ;
-
-VariableAssignmentExpression
-  : VariableIdentifier '=' Constant
-    {
-      variableBox[$1] = $3
-      $$ = ""
-    }
-  ;
-
 LoopStatement
   : LoopExpression
   ;
@@ -147,26 +166,42 @@ LoopExpression
     {$$ = $2}
   ;
 
+IfElseStatement
+  : IfWithoutElseExpression
+  | IfElseExpression
+  ;
+
+IfWithoutElseExpression
+  : "IF" "(" IfStatement ")" BlockStatement
+    {
+      $$ = ifParser.parseIfWithoutElse($3, $5);
+    }
+  ;
+
+IfElseExpression
+  : "IF" "(" IfStatement ")" BlockStatement "ELSE" BlockStatement
+    {
+      $$ = ifParser.parseIfElse($3,$5,$7);
+    }
+  ;
+
+IfStatement
+  : IfStatement Expression
+    { $$ = $1.concat($2) }
+  | IfStatement Operator
+    { $$ = $1.concat($2) }
+  | { $$ = [] }
+  ;
+
 ForLoopNoIterationVariable
   : "(" VariableIdentifier IN NUMBER "." "." NUMBER ")" BlockStatement
     {
-      var parsedStr = [];
-      var str = "";
-      for (var i = $4;i<$7;i++) {
-        str = $9;
-        while (str.indexOf("#{"+$2+"}") != -1) {
-          str = str.replace("#{"+$2+"}", i);
-        }
-        while (str.indexOf($2) != -1) {
-          str = str.replace($2, i);
-        }
-        parsedStr.push(str);
-      }
-      $$ = parsedStr.join(' ');
+      $$ = loopParser.parseFor($2,Number($4),Number($7),$9);
     }
   ;
 
 %%
 var variableBox = {};
-variableBox['$test'] = {'foo': ['a','b','c','d','e','f','g','h','i']};
-var tagParser = require(process.cwd() + '/tagparser.js');
+var tagParser = require(process.cwd() + '/parsers/tagparser.js');
+var loopParser = require(process.cwd() + '/parsers/loopparser.js');
+var ifParser = require(process.cwd() + '/parsers/ifelseparser.js');
