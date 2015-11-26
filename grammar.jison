@@ -5,9 +5,14 @@
 
 %%
 \s+                   /* skip whitespace */
+"if"                  return 'IF';
+"else"                return 'ELSE';
+"for"                 return 'FOR';
+'in'                  return 'IN';
 [0-9]+("."[0-9]+)?\b  return 'NUMBER';
-[!|a-zA-Z][^:\s{};]*  return 'TagIdentifier';
-\".*\"                return 'STRING';
+[!|a-zA-Z][^:\s{};]*  return 'Identifier';
+\$[a-zA-Z]\w*         return 'VariableIdentifier';
+\"[^\"]*\"                return 'STRING';
 "*"                   return '*';
 "/"                   return '/';
 "-"                   return '-';
@@ -23,7 +28,9 @@
 "%"                   return '%';
 ":"                   return ':';
 ";"                   return ';';
-'!'                   return '!';
+"."                   return '.';
+","                   return ',';
+"!"                   return '!';
 "PI"                  return 'PI';
 "E"                   return 'E';
 <<EOF>>               return 'EOF';
@@ -41,21 +48,77 @@
 
 %% /* language grammar */
 PROGRAM
-  : StatementList EOF
-    {return $1[0];}
+  : ProgramList EOF
+    {
+      var str = $1[0];
+      var regex = /#{(\$\S+)}/g;
+      var match;
+      var tempstr;
+      for (var i in variableBox) {
+        global[i] = variableBox[i];
+      }
+
+      while (match = regex.exec(str)) {
+        tempstr = str;
+        var a = match[1];
+        try {
+          tempstr = tempstr.replace(match[0], eval(a));
+        } catch (ex) {
+          tempstr = tempstr.replace(match[0], 'undefined');
+        }
+        str = tempstr;
+      }
+
+      return str;
+    }
+  ;
+
+ProgramList
+  : StatementList
+    {$$ = $1}
+  ;
+
+Operator
+  : "=" "="
+    {$$ = "=="}
+  | "=" "=" "="
+    {$$ = "==="}
+  | "!""="
+    {$$ = "!="}
+  | ">"
+    {$$ = ">"}
+  | "<"
+    {$$ = "<"}
+  | ">" "="
+    {$$ = ">="}
+  | "<" "="
+    {$$ = "<="}
+  ;
+
+UnaryOperator
+  : "!"
+    {$$ = "!"}
+  ;
+Constant
+  : STRING
+    {$$ = $1}
+  | NUMBER
+    {$$ = Number(yytext)}
+  ;
+
+Expression
+  : Identifier
+  | Constant
   ;
 
 Statement
   : OneLineTagStatement
   | BlockTagStatement
   | ClientScriptBlockPlaceholder
-  ;
-
-Expression
-  : STRING
-    {$$ = $1.substring(1, $1.length - 1)}
-  | NUMBER
-    {$$ = Number(yytext)}
+  | LoopStatement
+  | IfElseStatement
+  | MixinDeclarationStatement
+  | MixinCallStatement
   ;
 
 StatementList
@@ -66,30 +129,113 @@ StatementList
   | { $$ = [] }
   ;
 
+Content
+  : Content "+" STRING
+    { $$ = $1.concat($3.substring(1, $3.length-1)) }
+  | Content "+" VariableIdentifier
+    { $$ = $3 }
+  | STRING
+    { $$ = [$1.substring(1, $1.length-1)] }
+  | VariableIdentifier
+    { $$ = [$1] }
+  ;
+
 OneLineTagStatement
   : OneLineTagStatement Statement
     {$$ = $1.concat($2)}
-  | TagIdentifier ':' Expression
-    {$$ = tagParser.parseTag($1, $3)}
-  | TagIdentifier
+  | Identifier ':' Content
+    {$$ = tagParser.parseTag($1, $3.join(' '))}
+  | Identifier
     {$$ = tagParser.parseTag($1)}
   ;
 
 BlockTagStatement
-  : TagIdentifier Block
+  : Identifier BlockStatement
     {$$ = tagParser.parseTag($1, $2)}
   ;
 
 ClientScriptBlockPlaceholder
-  : "<" "%" "=" Expression "=" "%" ">"
+  : "<" "%" "=" Constant "=" "%" ">"
     {$$ = $1+$2+$3+$4+$5+$6+$7}
   ;
 
-Block
+BlockStatement
   : "{" StatementList "}"
-    {$$ = $2.join('')}
+    {$$ = $2.join(' ')}
   ;
 
+LoopStatement
+  : LoopExpression
+  ;
+
+LoopExpression
+  : "FOR" ForLoopNoIterationVariable
+    {$$ = $2}
+  ;
+
+IfElseStatement
+  : IfWithoutElseExpression
+  | IfElseExpression
+  ;
+
+IfWithoutElseExpression
+  : "IF" "(" IfStatement ")" BlockStatement
+    {
+      $$ = ifParser.parseIfWithoutElse($3, $5);
+    }
+  ;
+
+IfElseExpression
+  : "IF" "(" IfStatement ")" BlockStatement "ELSE" BlockStatement
+    {
+      $$ = ifParser.parseIfElse($3,$5,$7);
+    }
+  ;
+
+IfStatement
+  : IfStatement Expression
+    { $$ = $1.concat($2) }
+  | IfStatement Operator
+    { $$ = $1.concat($2) }
+  | { $$ = [] }
+  ;
+
+ForLoopNoIterationVariable
+  : "(" VariableIdentifier IN NUMBER "." "." NUMBER ")" BlockStatement
+    {
+      $$ = loopParser.parseFor($2,Number($4),Number($7),$9);
+    }
+  ;
+
+MixinCallStatement
+  : VariableIdentifier "(" ArgumentList ")"
+    {
+      $$ = mixinParser.evalMixin($1, $3);
+    }
+  ;
+
+MixinDeclarationStatement
+  : VariableIdentifier "-" ">" "(" ArgumentList ")" BlockStatement
+    {
+      $$ = mixinParser.newMixin($1, $5, $7);
+    }
+  ;
+
+ArgumentList
+  : ArgumentList "," VariableIdentifier
+    { $$ = $1.concat($3) }
+  | ArgumentList "," Content
+    { $$ = $1.concat($3) }
+  | VariableIdentifier
+    { $$ = [$1] }
+  | Content
+    { $$ = [$1] }
+  ;
 
 %%
-var tagParser = require(process.cwd() + '/tagparser.js');
+var variableBox = {};
+var tagParser = require(process.cwd() + '/parsers/tagparser.js');
+var loopParser = require(process.cwd() + '/parsers/loopparser.js');
+var mixinParserObj = require(process.cwd() + '/parsers/mixinparser.js');
+var mixinParser = new mixinParserObj();
+var ifParser = require(process.cwd() + '/parsers/ifelseparser.js');
