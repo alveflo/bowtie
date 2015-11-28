@@ -1,5 +1,5 @@
 function getTagName(tag) {
-  var regex = /^[!|a-zA-Z]+/;
+  var regex = /^[!|a-zA-Z]\w*/;
   var match = regex.exec(tag);
   if (match != null) {
     return match[0];

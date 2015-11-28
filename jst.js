@@ -24,9 +24,7 @@ while (match = regex.exec(res)) {
 
   try {
     res = res.replace(match[0], eval('(' + 'settings.' + lMatch + ')'));
-  } catch (ex) {
-    console.log(ex);
-  }
+  } catch (ex) {}
 }
 
-console.log(pretty.prettyPrint(res));
+console.log(res);
