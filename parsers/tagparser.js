@@ -17,9 +17,10 @@ function getAttributes(tag) {
 }
 
 function getClasses(tag) {
-  var regex = /(\.[a-zA-Z]+)/g;
+  var regex = /(\.[a-zA-Z]\w+)/g;
   var classes = [];
   var match;
+  tag = tag.replace(/\(\S+[^\)]\)/, '');
   while (match = regex.exec(tag)) {
     classes.push(match[0].replace('.', ''));
   }
@@ -33,7 +34,7 @@ function getIds(tag) {
   var regex = /(#[a-zA-Z]+)/g;
   var classes = [];
   var match;
-
+  tag = tag.replace(/\(\S+[^\)]\)/, '');
   while (match = regex.exec(tag)) {
     classes.push(match[0].replace('#', ''));
   }
