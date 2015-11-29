@@ -1,5 +1,22 @@
+var contentParser = require('./contentparser');
+var trimmer = require('../utils/trimmer');
+
+function loopArray(varname, obj, block, settings) {
+  var retVal = "";
+  if (!settings.hasOwnProperty(trimmer.trimVariableName(obj)))
+    throw "No such variable '" + obj + "'!";
+  var arr = settings[trimmer.trimVariableName(obj)];
+  for (var i in arr) {
+    var elem = arr[i];
+    var settings = {};
+    settings[trimmer.trimVariableName(varname)] = elem;
+    retVal += contentParser.parseString(block, settings);
+  }
+  return retVal;
+}
+
 module.exports = {
-  parseFor: function(varname, min, max, block) {
+  loopBasic: function(varname, min, max, block) {
     var parsedStr = [];
     var str = "";
     for (var i = min ; i < max ; i++) {
@@ -13,5 +30,8 @@ module.exports = {
       parsedStr.push(str);
     }
     return parsedStr.join(' ');
+  },
+  loopObject: function(varname, obj, block, settings) {
+    return loopArray(varname, obj, block, settings);
   }
 };

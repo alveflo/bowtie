@@ -5,35 +5,35 @@
 
 %%
 \s+                   /* skip whitespace */
-"if"                  return 'IF';
-"else"                return 'ELSE';
-"for"                 return 'FOR';
-'in'                  return 'IN';
-[0-9]+("."[0-9]+)?\b  return 'NUMBER';
-[!|a-zA-Z][^:\s{};]*  return 'Identifier';
-\$[a-zA-Z]\w*         return 'VariableIdentifier';
-\"[^\"]*\"                return 'STRING';
-"*"                   return '*';
-"/"                   return '/';
-"-"                   return '-';
-"+"                   return '+';
-"^"                   return '^';
-"("                   return '(';
-")"                   return ')';
-"{"                   return '{';
-"}"                   return '}';
-"<"                   return '<';
-">"                   return '>';
-"="                   return '=';
-"%"                   return '%';
-":"                   return ':';
-";"                   return ';';
-"."                   return '.';
-","                   return ',';
-"!"                   return '!';
-"PI"                  return 'PI';
-"E"                   return 'E';
-<<EOF>>               return 'EOF';
+"if"                          return 'IF';
+"else"                        return 'ELSE';
+"for"                         return 'FOR';
+'in'                          return 'IN';
+[0-9]+("."[0-9]+)?\b          return 'NUMBER';
+[!|a-zA-Z][^:\s{};,]*         return 'Identifier';
+\$[a-zA-Z][\w|.|\[|\]]*       return 'VariableIdentifier';
+\"[^\"]*\"                    return 'STRING';
+"*"                           return '*';
+"/"                           return '/';
+"-"                           return '-';
+"+"                           return '+';
+"^"                           return '^';
+"("                           return '(';
+")"                           return ')';
+"{"                           return '{';
+"}"                           return '}';
+"<"                           return '<';
+">"                           return '>';
+"="                           return '=';
+"%"                           return '%';
+":"                           return ':';
+";"                           return ';';
+"."                           return '.';
+","                           return ',';
+"!"                           return '!';
+"PI"                          return 'PI';
+"E"                           return 'E';
+<<EOF>>                       return 'EOF';
 
 /lex
 
@@ -50,26 +50,7 @@
 PROGRAM
   : ProgramList EOF
     {
-      var str = $1[0];
-      var regex = /#{(\$\S+)}/g;
-      var match;
-      var tempstr;
-      for (var i in variableBox) {
-        global[i] = variableBox[i];
-      }
-
-      while (match = regex.exec(str)) {
-        tempstr = str;
-        var a = match[1];
-        try {
-          tempstr = tempstr.replace(match[0], eval(a));
-        } catch (ex) {
-          tempstr = tempstr.replace(match[0], 'undefined');
-        }
-        str = tempstr;
-      }
-
-      return str;
+      return $1[0];
     }
   ;
 
@@ -119,6 +100,7 @@ Statement
   | IfElseStatement
   | MixinDeclarationStatement
   | MixinCallStatement
+  | Content
   ;
 
 StatementList
@@ -131,13 +113,13 @@ StatementList
 
 Content
   : Content "+" STRING
-    { $$ = $1.concat($3.substring(1, $3.length-1)) }
+    { $$ = $1.concat($3.substring(1, $3.length - 1)) }
   | Content "+" VariableIdentifier
-    { $$ = $3 }
+    { $$ = $1.concat("#{" + $3 + "}") }
   | STRING
-    { $$ = [$1.substring(1, $1.length-1)] }
+    { $$ = [$1.substring(1, $1.length - 1)] }
   | VariableIdentifier
-    { $$ = [$1] }
+    { $$ = ["#{" + $1 + "}"] }
   ;
 
 OneLineTagStatement
@@ -171,6 +153,8 @@ LoopStatement
 LoopExpression
   : "FOR" ForLoopNoIterationVariable
     {$$ = $2}
+  | "FOR" ForLoopWithIterationVariable
+    {$$ = $2}
   ;
 
 IfElseStatement
@@ -203,7 +187,14 @@ IfStatement
 ForLoopNoIterationVariable
   : "(" VariableIdentifier IN NUMBER "." "." NUMBER ")" BlockStatement
     {
-      $$ = loopParser.parseFor($2,Number($4),Number($7),$9);
+      $$ = loopParser.loopBasic($2,Number($4),Number($7),$9);
+    }
+  ;
+
+ForLoopWithIterationVariable
+  : "(" VariableIdentifier IN VariableIdentifier ")" BlockStatement
+    {
+      $$ = loopParser.loopObject($2, $4, $6, yy.settings);
     }
   ;
 
@@ -239,3 +230,4 @@ var loopParser = require(process.cwd() + '/parsers/loopparser.js');
 var mixinParserObj = require(process.cwd() + '/parsers/mixinparser.js');
 var mixinParser = new mixinParserObj();
 var ifParser = require(process.cwd() + '/parsers/ifelseparser.js');
+var contentParser = require(process.cwd() + '/parsers/contentparser.js');

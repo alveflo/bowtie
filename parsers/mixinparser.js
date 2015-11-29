@@ -11,7 +11,6 @@ mixin.prototype.newMixin = function(identifier, argumentlist, block) {
 };
 
 mixin.prototype.evalMixin = function(identifier, argumentlist) {
-  console.log(argumentlist);
   if (!this.mixinBox.hasOwnProperty(identifier))
     throw "No such mixin '" + identifier + "'!";
   var block = this.mixinBox[identifier];

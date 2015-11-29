@@ -1,30 +1,29 @@
 var fs = require('fs');
-var jison = require('jison');
-var preparser = require('./preparser.js');
+var clientCodeParser = require('./parsers/clientcodeparser.js');
+var parser = require('./grammar.js').parser;
+
 var pretty = require('html');
 
 var bnf = fs.readFileSync('grammar.jison', 'utf8');
 var jst = fs.readFileSync('example.jst', 'utf8');
-var parser = new jison.Parser(bnf);
 
-var preparsed = preparser.parse(jst);
-var res = parser.parse(preparsed[0]);
-var blocks = preparsed[1];
+
 var settings = {
   apa: ['a','b','c','d','e','f','g','h','i','j','k']
 }
-for (var i in blocks)
-  res = res.replace('<%='+i+'=%>', blocks[i]);
 
-var regex = /#{([a-zA-Z][^:\s{};]*)}/g;
-var match;
 
-while (match = regex.exec(res)) {
-  var lMatch = match[1];
 
-  try {
-    res = res.replace(match[0], eval('(' + 'settings.' + lMatch + ')'));
-  } catch (ex) {}
-}
+// Preparse , i.e. rip out client code (script- and style blocks)
+// in order to skip parsing of these
+var preparsed = clientCodeParser.preParse(jst);
+// Set settings to parser scope
+parser.yy.settings = settings;
+// Run parser
+var res = parser.parse(preparsed[0]);
+
+// Put the client code back in place
+res = clientCodeParser.postParse(res, preparsed[1]);
+
 
 console.log(res);
