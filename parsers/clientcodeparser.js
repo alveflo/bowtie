@@ -31,7 +31,13 @@ function ripOutCode(str) {
 }
 
 module.exports = {
-  parse: function(str) {
+  preParse: function(str) {
     return ripOutCode(str);
+  },
+  postParse: function(str, blocks) {
+    for (var i in blocks) {
+      str = str.replace('<%='+i+'=%>', blocks[i]);
+    }
+    return str;
   }
 }
