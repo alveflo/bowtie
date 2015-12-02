@@ -16,9 +16,6 @@ function parseString(str, settings) {
     var lMatch = match[1];
     str = str.replace(match[0], parseVariable(lMatch, settings));
   }
-  console.log(str);
-  console.log(settings);
-
   return str;
 }
 
