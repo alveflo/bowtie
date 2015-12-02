@@ -1,16 +1,16 @@
-# jst
+# Bowtie
 C-style syntaxed expressive template engine for node inspired by Jade.
 
-## status
+## Current status
 - ✔ basic html output
-- ◦ loops
-- ◦ if-else
+- ✔ loops
+- ✔ if-else
 - ◦ variables
-- ◦ mixins
+- ✔ mixins
 - ◦ importing
 - ◦ extending
 
-## example
+## Example
 ```
 html {
   head {
@@ -21,7 +21,7 @@ html {
       }
     }
     style {
-      body: {
+      body {
         background-color: #000;
       }
     }
@@ -35,7 +35,7 @@ html {
 }
 ```
 
-the example above outputs:
+The example above outputs:
 ```html
 <html>
     <head>
@@ -46,7 +46,7 @@ the example above outputs:
               }
         </script>
         <style>
-            body: {
+            body {
                 background-color: #000;
               }
         </style>
@@ -60,5 +60,5 @@ the example above outputs:
 
 ```
 
-## license
+## License
 The MIT License
