@@ -8,7 +8,8 @@
 "if"                          return 'IF';
 "else"                        return 'ELSE';
 "for"                         return 'FOR';
-'in'                          return 'IN';
+"in"                          return 'IN';
+"import"                      return 'IMPORT';
 [0-9]+("."[0-9]+)?\b          return 'NUMBER';
 [!|a-zA-Z][^:\s{};,]*         return 'Identifier';
 \$[a-zA-Z][\w|.|\[|\]]*       return 'VariableIdentifier';
@@ -50,7 +51,7 @@
 PROGRAM
   : ProgramList EOF
     {
-      return $1[0];
+      return contentParser.parseString($1[0], yy.settings);
     }
   ;
 
