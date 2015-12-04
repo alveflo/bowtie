@@ -1,4 +1,5 @@
 node_modules
 example.bow
 example.bow.html
+coverage
 testfile.js
