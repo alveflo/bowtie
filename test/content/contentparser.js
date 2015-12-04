@@ -23,7 +23,13 @@ describe('Content parser', function() {
       };
       var str = '$setting';
       assert.equal('bar', parser.parseVariable(str, settings));
-    })
+    });
+
+    it ('Should return "undefined"', function() {
+      var settings = {};
+      var str = '$setting';
+      assert.equal('undefined', parser.parseVariable(str, settings));
+    });
   });
 
 });

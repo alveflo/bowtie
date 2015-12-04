@@ -1,7 +1,8 @@
+var contentParser = require('./contentparser.js');
 module.exports = {
-  parseIfWithoutElse: function(expression, block) {
+  parseIfWithoutElse: function(expression, block, settings) {
     try {
-      var result = eval('('+expression+')');
+      var result = eval('('+contentParser.parseVariable(expression, settings)+')');
 
       if (result === true) {
         return block;
@@ -9,9 +10,9 @@ module.exports = {
     } catch (ex) {}
     return "";
   },
-  parseIfElse: function(expression, trueBlock, falseBlock) {
+  parseIfElse: function(expression, trueBlock, falseBlock, settings) {
     try {
-      var result = eval('('+expression+')');
+      var result = eval('('+contentParser.parseVariable(expression, settings)+')');
       if (result === true) {
         return trueBlock;
       }

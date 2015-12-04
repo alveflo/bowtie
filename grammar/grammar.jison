@@ -5,6 +5,7 @@
 
 %%
 \s+                   /* skip whitespace */
+\/\/.*                        return 'COMMENT'
 "if"                          return 'IF';
 "else"                        return 'ELSE';
 "for"                         return 'FOR';
@@ -121,6 +122,8 @@ Content
     { $$ = [$1.substring(1, $1.length - 1)] }
   | VariableIdentifier
     { $$ = ["#{" + $1 + "}"] }
+  | COMMENT
+    { $$ = "" }
   ;
 
 OneLineTagStatement
@@ -166,14 +169,14 @@ IfElseStatement
 IfWithoutElseExpression
   : "IF" "(" IfStatement ")" BlockStatement
     {
-      $$ = ifParser.parseIfWithoutElse($3, $5);
+      $$ = ifParser.parseIfWithoutElse($3, $5, yy.settings);
     }
   ;
 
 IfElseExpression
   : "IF" "(" IfStatement ")" BlockStatement "ELSE" BlockStatement
     {
-      $$ = ifParser.parseIfElse($3,$5,$7);
+      $$ = ifParser.parseIfElse($3,$5,$7, yy.settings);
     }
   ;
 

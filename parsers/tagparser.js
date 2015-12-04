@@ -1,10 +1,11 @@
 function getTagName(tag) {
   var regex = /^[!|a-zA-Z]\w*/;
   var match = regex.exec(tag);
+  var retVal = ""
   if (match != null) {
-    return match[0];
+    retVal = match[0];
   }
-  return "";
+  return retVal;
 }
 
 function getAttributes(tag) {
@@ -50,6 +51,11 @@ module.exports = {
     var attributes = getAttributes(tag);
     var classes = getClasses(tag);
     var ids = getIds(tag);
+
+    if (tagName === '') {
+      return '';
+    }
+
     if (body) {
       return '<'+tagName+ids+classes+attributes+'>'+body+'</'+tagName+'> ';
     } else {

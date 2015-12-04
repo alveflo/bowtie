@@ -2,7 +2,7 @@ module.exports = {
   parse: function(filename, settings) {
     var fs = require('fs');
     var clientCodeParser = require('./parsers/clientcodeparser.js');
-    var parser = require('./grammar.js').parser;
+    var parser = require('./grammar/grammar.js').parser;
 
     var beautify_html = require('js-beautify').html;
 
