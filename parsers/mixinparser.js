@@ -12,7 +12,7 @@ mixin.prototype.newMixin = function(identifier, argumentlist, block) {
 
 mixin.prototype.evalMixin = function(identifier, argumentlist) {
   if (!this.mixinBox.hasOwnProperty(identifier))
-    throw "No such mixin '" + identifier + "'!";
+    throw new Error("No such mixin '" + identifier + "'!");
   var block = this.mixinBox[identifier];
   for (var i in argumentlist) {
     var placeholder = "#{<%#"+i+"#%>}";
