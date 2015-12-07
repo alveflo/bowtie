@@ -1,3 +1,5 @@
+'use strict';
+
 function getTagName(tag) {
   var regex = /^[!|a-zA-Z]\w*/;
   var match = regex.exec(tag);

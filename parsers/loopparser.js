@@ -1,3 +1,5 @@
+'use strict';
+
 var contentParser = require('./contentparser');
 var trimmer = require('../utils/trimmer');
 

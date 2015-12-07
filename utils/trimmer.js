@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   trimVariableName: function(varname) {
     if (varname.indexOf("$") === 0)

@@ -1,3 +1,5 @@
+'use strict';
+
 var trimmer = require('../utils/trimmer');
 
 function parseString(str, settings) {

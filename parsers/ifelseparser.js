@@ -1,3 +1,5 @@
+'use strict';
+
 var contentParser = require('./contentparser.js');
 module.exports = {
   parseIfWithoutElse: function(expression, block, settings) {

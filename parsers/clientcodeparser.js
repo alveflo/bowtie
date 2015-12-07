@@ -1,3 +1,5 @@
+'use strict';
+
 // Returns [string :string, codeblocks : array]
 function ripOutCode(str) {
   var blocks = [];
