@@ -1,18 +1,35 @@
 {
-  "name": "jst",
-  "version": "1.0.0",
-  "description": "",
-  "main": "jst.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "name": "bowtie-js",
+  "version": "0.0.1",
+  "description": "Yet another template engine",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
   },
-  "author": "Victor Alveflo <victor.alveflo@gmail.com>",
-  "license": "ISC",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bowtie-js/bowtie.git"
+  },
   "dependencies": {
     "gulp-util": "^3.0.7",
     "jison": "^0.4.15",
     "js-beautify": "^1.5.10",
     "mocha": "^2.3.4",
     "through2": "^2.0.0"
-  }
+  },
+  "keywords": [
+    "Template",
+    "engine",
+    "bowtie",
+    "bowtie-js"
+  ],
+  "author": "Victor Alveflo <victor.alveflo@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bowtie-js/bowtie/issues"
+  },
+  "homepage": "https://github.com/bowtie-js/bowtie#readme"
 }
