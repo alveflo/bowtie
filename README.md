@@ -1,4 +1,6 @@
 # Bowtie
+[![Build Status](https://travis-ci.org/bowtie-js/bowtie.svg?branch=master)](https://travis-ci.org/bowtie-js/bowtie)
+
 C-style syntaxed expressive template engine for node inspired by Jade.
 
 ## Current status
