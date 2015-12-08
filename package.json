@@ -34,6 +34,7 @@
   "homepage": "https://github.com/bowtie-js/bowtie#readme",
   "devDependencies": {
     "coveralls": "^2.11.4",
+    "istanbul": "^0.4.1",
     "mocha-lcov-reporter": "^1.0.0"
   }
 }
