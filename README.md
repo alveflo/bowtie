@@ -1,5 +1,6 @@
 # Bowtie
-[![Build Status](https://travis-ci.org/bowtie-js/bowtie.svg?branch=master)](https://travis-ci.org/bowtie-js/bowtie)
+[![Build Status](https://travis-ci.org/bowtie-js/bowtie.svg?branch=master)](https://travis-ci.org/bowtie-js/bowtie) 
+[![Coverage Status](https://coveralls.io/repos/bowtie-js/bowtie/badge.svg?branch=master&service=github)](https://coveralls.io/github/bowtie-js/bowtie?branch=master)
 
 C-style syntaxed expressive template engine for node inspired by Jade.
 
