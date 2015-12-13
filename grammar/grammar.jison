@@ -11,6 +11,8 @@
 "for"                         return 'FOR';
 "in"                          return 'IN';
 "import"                      return 'IMPORT';
+"extend"                      return 'EXTEND';
+"content"                     return 'EXTENTIONCONTENTBLOCK';
 [0-9]+("."[0-9]+)?\b          return 'NUMBER';
 [!|a-zA-Z][^:\s{};,]*         return 'Identifier';
 \$[a-zA-Z][\w|.|\[|\]]*       return 'VariableIdentifier';
@@ -52,7 +54,13 @@
 PROGRAM
   : ProgramList EOF
     {
-      return contentParser.parseString($1[0], yy.settings);
+      var content = "";
+      if (yy.parentTemplate) {
+        content = contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $1[$1.length-1]), yy.settings);
+      } else {
+        content = contentParser.parseString($1[$1.length-1], yy.settings);
+      }
+      return content;
     }
   ;
 
@@ -104,6 +112,7 @@ Statement
   | MixinCallStatement
   | Content
   | ImportStatement
+  | ExtendStatement
   ;
 
 StatementList
@@ -123,6 +132,8 @@ Content
     { $$ = [$1.substring(1, $1.length - 1)] }
   | VariableIdentifier
     { $$ = ["#{" + $1 + "}"] }
+  | EXTENTIONCONTENTBLOCK
+    { $$ = "<%=BOWTIE-CONTENT=%>" }
   | COMMENT
     { $$ = "" }
   ;
@@ -130,6 +141,14 @@ Content
 ImportStatement
   : IMPORT STRING
     { $$ = yy.settings.$_compile_bowtie(path.join(process.cwd(), $2.substring(1, $2.length-1)), yy.settings) }
+  ;
+
+ExtendStatement
+  : EXTEND STRING
+    {
+      yy.parentTemplate = yy.settings.$_compile_bowtie(path.join(process.cwd(), $2.substring(1, $2.length - 1)), yy.settings)
+      $$ = "";
+    }
   ;
 
 OneLineTagStatement
