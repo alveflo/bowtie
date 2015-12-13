@@ -14,7 +14,7 @@
 "extend"                                     return 'EXTEND';
 "bowtie:content"                             return 'EXTENSIONCONTENTBLOCK';
 [0-9]+("."[0-9]+)?\b                         return 'NUMBER';
-[!|a-zA-Z][\w|\.|#]*(\([^\)]*\))?            return 'Identifier';
+[!|a-zA-Z][\w|\.|#|-]*(\([^\)]*\))?          return 'Identifier';
 \$[a-zA-Z][\w|.|\[|\]]*                      return 'VariableIdentifier';
 \"[^\"]*\"                                   return 'STRING';
 "*"                                          return '*';
