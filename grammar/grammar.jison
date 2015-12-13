@@ -4,40 +4,40 @@
 %lex
 
 %%
-\s+                   /* skip whitespace */
-\/\/.*                        return 'COMMENT'
-"if"                          return 'IF';
-"else"                        return 'ELSE';
-"for"                         return 'FOR';
-"in"                          return 'IN';
-"import"                      return 'IMPORT';
-"extend"                      return 'EXTEND';
-"bowtie:content"              return 'EXTENSIONCONTENTBLOCK';
-[0-9]+("."[0-9]+)?\b          return 'NUMBER';
-[!|a-zA-Z][^:\s{};,]*         return 'Identifier';
-\$[a-zA-Z][\w|.|\[|\]]*       return 'VariableIdentifier';
-\"[^\"]*\"                    return 'STRING';
-"*"                           return '*';
-"/"                           return '/';
-"-"                           return '-';
-"+"                           return '+';
-"^"                           return '^';
-"("                           return '(';
-")"                           return ')';
-"{"                           return '{';
-"}"                           return '}';
-"<"                           return '<';
-">"                           return '>';
-"="                           return '=';
-"%"                           return '%';
-":"                           return ':';
-";"                           return ';';
-"."                           return '.';
-","                           return ',';
-"!"                           return '!';
-"PI"                          return 'PI';
-"E"                           return 'E';
-<<EOF>>                       return 'EOF';
+\s+                                          /* skip whitespace */
+\/\/.*                                       return 'COMMENT'
+"if"                                         return 'IF';
+"else"                                       return 'ELSE';
+"for"                                        return 'FOR';
+"in"                                         return 'IN';
+"import"                                     return 'IMPORT';
+"extend"                                     return 'EXTEND';
+"bowtie:content"                             return 'EXTENSIONCONTENTBLOCK';
+[0-9]+("."[0-9]+)?\b                         return 'NUMBER';
+[!|a-zA-Z][\w|\.|#]*(\([^\)]*\))?            return 'Identifier';
+\$[a-zA-Z][\w|.|\[|\]]*                      return 'VariableIdentifier';
+\"[^\"]*\"                                   return 'STRING';
+"*"                                          return '*';
+"/"                                          return '/';
+"-"                                          return '-';
+"+"                                          return '+';
+"^"                                          return '^';
+"("                                          return '(';
+")"                                          return ')';
+"{"                                          return '{';
+"}"                                          return '}';
+"<"                                          return '<';
+">"                                          return '>';
+"="                                          return '=';
+"%"                                          return '%';
+":"                                          return ':';
+";"                                          return ';';
+"."                                          return '.';
+","                                          return ',';
+"!"                                          return '!';
+"PI"                                         return 'PI';
+"E"                                          return 'E';
+<<EOF>>                                      return 'EOF';
 
 /lex
 
