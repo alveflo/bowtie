@@ -3,28 +3,24 @@ var bowtie = require('./bowtie.js')
 var extend = require('util')._extend;
 var ext = require('gulp-util').replaceExtension;
 var PluginError = require('gulp-util').PluginError;
+var path = require('path');
 
 function addCompiler(options) {
-  if (options.locals) {
-    options.locals = extend(options.locals, {
-      "$_compile_bowtie": compiler
-    });
-  } else {
-    options.locals = {
-      "$_compile_bowtie": compiler
-    };
-  }
-  return options;
+  return extend(options, {
+    "$_compile_bowtie": compiler
+  });
 };
 
 function compiler(filename, options) {
   var fs = require('fs');
   var encoding = 'utf8';
-  if (options.encoding)
+  if (options.encoding) {
     encoding = options.encoding;
+  }
 
   var content = fs.readFileSync(filename, encoding);
   options = addCompiler(options);
+  options.filename = path.join(process.cwd(), filename);
 
   return bowtie.compile(content, options);
 };

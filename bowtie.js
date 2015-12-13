@@ -28,12 +28,9 @@ module.exports = {
         "mixinParser": new mixinParserObj(),
         "ifParser": require('./parsers/ifelseparser.js'),
         "contentParser": require('./parsers/contentparser.js')
-      }
+      },
     };
-
-    if (settings.locals) {
-      parser.yy.settings = extend(parser.yy.settings, settings.locals);
-    }
+    parser.yy.settings = extend(parser.yy.settings, settings);
     // Run parser
     var res = parser.parse(preparsedResult);
 

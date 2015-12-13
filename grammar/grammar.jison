@@ -56,9 +56,9 @@ PROGRAM
     {
       var content = "";
       if (yy.parentTemplate) {
-        content = yy.settings.parsers.contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $1[$1.length-1]), yy.settings);
+        content = yy.settings.parsers.contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $1[$1.length-1]), yy.settings.locals);
       } else {
-        content = yy.settings.parsers.contentParser.parseString($1[$1.length-1], yy.settings);
+        content = yy.settings.parsers.contentParser.parseString($1[$1.length-1], yy.settings.locals);
       }
       return content;
     }
@@ -140,13 +140,13 @@ Content
 
 ImportStatement
   : IMPORT STRING
-    { $$ = yy.settings.$_compile_bowtie(path.join(process.cwd(), $2.substring(1, $2.length-1)), yy.settings) }
+    { $$ = yy.settings.$_compile_bowtie(path.join(process.cwd(), $2.substring(1, $2.length-1)), yy.settings.locals) }
   ;
 
 ExtendStatement
   : EXTEND STRING
     {
-      yy.parentTemplate = yy.settings.$_compile_bowtie(path.join(process.cwd(), $2.substring(1, $2.length - 1)), yy.settings)
+      yy.parentTemplate = yy.settings.$_compile_bowtie(path.join(path.parse(yy.settings.filename).dir, $2.substring(1, $2.length - 1)), yy.settings.locals)
       $$ = "";
     }
   ;
@@ -194,14 +194,14 @@ IfElseStatement
 IfWithoutElseExpression
   : "IF" "(" IfStatement ")" BlockStatement
     {
-      $$ = yy.settings.parsers.ifParser.parseIfWithoutElse($3, $5, yy.settings);
+      $$ = yy.settings.parsers.ifParser.parseIfWithoutElse($3, $5, yy.settings.locals);
     }
   ;
 
 IfElseExpression
   : "IF" "(" IfStatement ")" BlockStatement "ELSE" BlockStatement
     {
-      $$ = yy.settings.parsers.ifParser.parseIfElse($3,$5,$7, yy.settings);
+      $$ = yy.settings.parsers.ifParser.parseIfElse($3,$5,$7, yy.settings.locals);
     }
   ;
 
@@ -223,7 +223,7 @@ ForLoopNoIterationVariable
 ForLoopWithIterationVariable
   : "(" VariableIdentifier IN VariableIdentifier ")" BlockStatement
     {
-      $$ = yy.settings.parsers.loopParser.loopObject($2, $4, $6, yy.settings);
+      $$ = yy.settings.parsers.loopParser.loopObject($2, $4, $6, yy.settings.locals);
     }
   ;
 

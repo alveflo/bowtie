@@ -87,9 +87,9 @@ case 1:
 
       var content = "";
       if (yy.parentTemplate) {
-        content = yy.settings.parsers.contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $$[$0-1][$$[$0-1].length-1]), yy.settings);
+        content = yy.settings.parsers.contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $$[$0-1][$$[$0-1].length-1]), yy.settings.locals);
       } else {
-        content = yy.settings.parsers.contentParser.parseString($$[$0-1][$$[$0-1].length-1], yy.settings);
+        content = yy.settings.parsers.contentParser.parseString($$[$0-1][$$[$0-1].length-1], yy.settings.locals);
       }
       return content;
     
@@ -151,11 +151,11 @@ case 32:
  this.$ = "" 
 break;
 case 33:
- this.$ = yy.settings.$_compile_bowtie(path.join(process.cwd(), $$[$0].substring(1, $$[$0].length-1)), yy.settings) 
+ this.$ = yy.settings.$_compile_bowtie(path.join(process.cwd(), $$[$0].substring(1, $$[$0].length-1)), yy.settings.locals) 
 break;
 case 34:
 
-      yy.parentTemplate = yy.settings.$_compile_bowtie(path.join(process.cwd(), $$[$0].substring(1, $$[$0].length - 1)), yy.settings)
+      yy.parentTemplate = yy.settings.$_compile_bowtie(path.join(path.parse(yy.settings.filename).dir, $$[$0].substring(1, $$[$0].length - 1)), yy.settings.locals)
       this.$ = "";
     
 break;
@@ -179,12 +179,12 @@ this.$ = $$[$0-1].join(' ')
 break;
 case 46:
 
-      this.$ = yy.settings.parsers.ifParser.parseIfWithoutElse($$[$0-2], $$[$0], yy.settings);
+      this.$ = yy.settings.parsers.ifParser.parseIfWithoutElse($$[$0-2], $$[$0], yy.settings.locals);
     
 break;
 case 47:
 
-      this.$ = yy.settings.parsers.ifParser.parseIfElse($$[$0-4],$$[$0-2],$$[$0], yy.settings);
+      this.$ = yy.settings.parsers.ifParser.parseIfElse($$[$0-4],$$[$0-2],$$[$0], yy.settings.locals);
     
 break;
 case 48: case 49:
@@ -197,7 +197,7 @@ case 51:
 break;
 case 52:
 
-      this.$ = yy.settings.parsers.loopParser.loopObject($$[$0-4], $$[$0-2], $$[$0], yy.settings);
+      this.$ = yy.settings.parsers.loopParser.loopObject($$[$0-4], $$[$0-2], $$[$0], yy.settings.locals);
     
 break;
 case 53:
