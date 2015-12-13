@@ -56,9 +56,9 @@ PROGRAM
     {
       var content = "";
       if (yy.parentTemplate) {
-        content = contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $1[$1.length-1]), yy.settings);
+        content = yy.settings.parsers.contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $1[$1.length-1]), yy.settings);
       } else {
-        content = contentParser.parseString($1[$1.length-1], yy.settings);
+        content = yy.settings.parsers.contentParser.parseString($1[$1.length-1], yy.settings);
       }
       return content;
     }
@@ -155,14 +155,14 @@ OneLineTagStatement
   : OneLineTagStatement Statement
     {$$ = $1.concat($2)}
   | Identifier ':' Content
-    {$$ = tagParser.parseTag($1, $3.join(' '))}
+    {$$ = yy.settings.parsers.tagParser.parseTag($1, $3.join(' '))}
   | Identifier
-    {$$ = tagParser.parseTag($1)}
+    {$$ = yy.settings.parsers.tagParser.parseTag($1)}
   ;
 
 BlockTagStatement
   : Identifier BlockStatement
-    {$$ = tagParser.parseTag($1, $2)}
+    {$$ = yy.settings.parsers.tagParser.parseTag($1, $2)}
   ;
 
 ClientScriptBlockPlaceholder
@@ -194,14 +194,14 @@ IfElseStatement
 IfWithoutElseExpression
   : "IF" "(" IfStatement ")" BlockStatement
     {
-      $$ = ifParser.parseIfWithoutElse($3, $5, yy.settings);
+      $$ = yy.settings.parsers.ifParser.parseIfWithoutElse($3, $5, yy.settings);
     }
   ;
 
 IfElseExpression
   : "IF" "(" IfStatement ")" BlockStatement "ELSE" BlockStatement
     {
-      $$ = ifParser.parseIfElse($3,$5,$7, yy.settings);
+      $$ = yy.settings.parsers.ifParser.parseIfElse($3,$5,$7, yy.settings);
     }
   ;
 
@@ -216,28 +216,28 @@ IfStatement
 ForLoopNoIterationVariable
   : "(" VariableIdentifier IN NUMBER "." "." NUMBER ")" BlockStatement
     {
-      $$ = loopParser.loopBasic($2,Number($4),Number($7),$9);
+      $$ = yy.settings.parsers.loopParser.loopBasic($2,Number($4),Number($7),$9);
     }
   ;
 
 ForLoopWithIterationVariable
   : "(" VariableIdentifier IN VariableIdentifier ")" BlockStatement
     {
-      $$ = loopParser.loopObject($2, $4, $6, yy.settings);
+      $$ = yy.settings.parsers.loopParser.loopObject($2, $4, $6, yy.settings);
     }
   ;
 
 MixinCallStatement
   : VariableIdentifier "(" ArgumentList ")"
     {
-      $$ = mixinParser.evalMixin($1, $3);
+      $$ = yy.settings.parsers.mixinParser.evalMixin($1, $3);
     }
   ;
 
 MixinDeclarationStatement
   : VariableIdentifier "-" ">" "(" ArgumentList ")" BlockStatement
     {
-      $$ = mixinParser.newMixin($1, $5, $7);
+      $$ = yy.settings.parsers.mixinParser.newMixin($1, $5, $7);
     }
   ;
 
@@ -255,9 +255,3 @@ ArgumentList
 %%
 var path = require('path');
 var variableBox = {};
-var tagParser = require(path.join(process.cwd(), 'parsers/tagparser.js'));
-var loopParser = require(path.join(process.cwd(), 'parsers/loopparser.js'));
-var mixinParserObj = require(path.join(process.cwd(), 'parsers/mixinparser.js'));
-var mixinParser = new mixinParserObj();
-var ifParser = require(path.join(process.cwd(), 'parsers/ifelseparser.js'));
-var contentParser = require(path.join(process.cwd(), 'parsers/contentparser.js'));

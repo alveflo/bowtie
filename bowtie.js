@@ -19,11 +19,20 @@ module.exports = {
 
     // Scan for import and replace +import("/foo/bar") -> content
 
+    var mixinParserObj = require('./parsers/mixinparser.js');
     // Set settings to parser scope
-    parser.yy.settings = {};
+    parser.yy.settings = {
+      parsers: {
+        "tagParser": require('./parsers/tagparser.js'),
+        "loopParser": require('./parsers/loopparser.js'),
+        "mixinParser": new mixinParserObj(),
+        "ifParser": require('./parsers/ifelseparser.js'),
+        "contentParser": require('./parsers/contentparser.js')
+      }
+    };
 
     if (settings.locals) {
-      parser.yy.settings = extend({}, settings.locals);
+      parser.yy.settings = extend(parser.yy.settings, settings.locals);
     }
     // Run parser
     var res = parser.parse(preparsedResult);
