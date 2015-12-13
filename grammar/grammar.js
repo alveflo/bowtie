@@ -75,8 +75,8 @@ var parser = (function(){
 var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[2,26],$V1=[1,17],$V2=[1,22],$V3=[1,16],$V4=[1,21],$V5=[1,23],$V6=[1,24],$V7=[1,25],$V8=[1,26],$V9=[1,27],$Va=[1,28],$Vb=[5,11,14,17,30,31,32,33,34,39,41,46],$Vc=[1,30],$Vd=[1,33],$Ve=[5,11,14,17,29,30,31,32,33,34,39,41,46],$Vf=[2,30],$Vg=[5,11,14,17,29,30,31,32,33,34,39,41,46,49,55],$Vh=[1,51],$Vi=[8,9,10,11,14,15,17,49],$Vj=[1,57],$Vk=[1,58],$Vl=[1,61],$Vm=[49,55],$Vn=[9,10,11,14,15,17,49];
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"PROGRAM":3,"ProgramList":4,"EOF":5,"StatementList":6,"Operator":7,"=":8,"!":9,">":10,"<":11,"UnaryOperator":12,"Constant":13,"STRING":14,"NUMBER":15,"Expression":16,"Identifier":17,"Statement":18,"OneLineTagStatement":19,"BlockTagStatement":20,"ClientScriptBlockPlaceholder":21,"LoopStatement":22,"IfElseStatement":23,"MixinDeclarationStatement":24,"MixinCallStatement":25,"Content":26,"ImportStatement":27,"ExtendStatement":28,"+":29,"VariableIdentifier":30,"EXTENTIONCONTENTBLOCK":31,"COMMENT":32,"IMPORT":33,"EXTEND":34,":":35,"BlockStatement":36,"%":37,"{":38,"}":39,"LoopExpression":40,"FOR":41,"ForLoopNoIterationVariable":42,"ForLoopWithIterationVariable":43,"IfWithoutElseExpression":44,"IfElseExpression":45,"IF":46,"(":47,"IfStatement":48,")":49,"ELSE":50,"IN":51,".":52,"ArgumentList":53,"-":54,",":55,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",8:"=",9:"!",10:">",11:"<",14:"STRING",15:"NUMBER",17:"Identifier",29:"+",30:"VariableIdentifier",31:"EXTENTIONCONTENTBLOCK",32:"COMMENT",33:"IMPORT",34:"EXTEND",35:":",37:"%",38:"{",39:"}",41:"FOR",46:"IF",47:"(",49:")",50:"ELSE",51:"IN",52:".",54:"-",55:","},
+symbols_: {"error":2,"PROGRAM":3,"ProgramList":4,"EOF":5,"StatementList":6,"Operator":7,"=":8,"!":9,">":10,"<":11,"UnaryOperator":12,"Constant":13,"STRING":14,"NUMBER":15,"Expression":16,"Identifier":17,"Statement":18,"OneLineTagStatement":19,"BlockTagStatement":20,"ClientScriptBlockPlaceholder":21,"LoopStatement":22,"IfElseStatement":23,"MixinDeclarationStatement":24,"MixinCallStatement":25,"Content":26,"ImportStatement":27,"ExtendStatement":28,"+":29,"VariableIdentifier":30,"EXTENSIONCONTENTBLOCK":31,"COMMENT":32,"IMPORT":33,"EXTEND":34,":":35,"BlockStatement":36,"%":37,"{":38,"}":39,"LoopExpression":40,"FOR":41,"ForLoopNoIterationVariable":42,"ForLoopWithIterationVariable":43,"IfWithoutElseExpression":44,"IfElseExpression":45,"IF":46,"(":47,"IfStatement":48,")":49,"ELSE":50,"IN":51,".":52,"ArgumentList":53,"-":54,",":55,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",8:"=",9:"!",10:">",11:"<",14:"STRING",15:"NUMBER",17:"Identifier",29:"+",30:"VariableIdentifier",31:"EXTENSIONCONTENTBLOCK",32:"COMMENT",33:"IMPORT",34:"EXTEND",35:":",37:"%",38:"{",39:"}",41:"FOR",46:"IF",47:"(",49:")",50:"ELSE",51:"IN",52:".",54:"-",55:","},
 productions_: [0,[3,2],[4,1],[7,2],[7,3],[7,2],[7,1],[7,1],[7,2],[7,2],[12,1],[13,1],[13,1],[16,1],[16,1],[18,1],[18,1],[18,1],[18,1],[18,1],[18,1],[18,1],[18,1],[18,1],[18,1],[6,2],[6,0],[26,3],[26,3],[26,1],[26,1],[26,1],[26,1],[27,2],[28,2],[19,2],[19,3],[19,1],[20,2],[21,7],[36,3],[22,1],[40,2],[40,2],[23,1],[23,1],[44,5],[45,7],[48,2],[48,2],[48,0],[42,9],[43,6],[25,4],[24,7],[53,3],[53,3],[53,1],[53,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
@@ -151,11 +151,11 @@ case 32:
  this.$ = "" 
 break;
 case 33:
- this.$ = yy.settings.$_compile_bowtie(path.join(process.cwd(), $$[$0].substring(1, $$[$0].length-1)), yy.settings) 
+ this.$ = yy.settings.$_compile_bowtie(path.join(path.parse(yy.settings.filename).dir, $$[$0].substring(1, $$[$0].length - 1)), yy.settings) 
 break;
 case 34:
 
-      yy.parentTemplate = yy.settings.$_compile_bowtie(path.join(path.parse(yy.settings.filename).dir, $$[$0].substring(1, $$[$0].length - 1)), yy.settings.locals)
+      yy.parentTemplate = yy.settings.$_compile_bowtie(path.join(path.parse(yy.settings.filename).dir, $$[$0].substring(1, $$[$0].length - 1)), yy.settings)
       this.$ = "";
     
 break;
@@ -765,7 +765,7 @@ case 33:return 5;
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:\/\/.*)/,/^(?:if\b)/,/^(?:else\b)/,/^(?:for\b)/,/^(?:in\b)/,/^(?:import\b)/,/^(?:extend\b)/,/^(?:content\b)/,/^(?:[0-9]+(\.[0-9]+)?\b)/,/^(?:[!|a-zA-Z][^:\s{};,]*)/,/^(?:\$[a-zA-Z][\w|.|\[|\]]*)/,/^(?:"[^\"]*")/,/^(?:\*)/,/^(?:\/)/,/^(?:-)/,/^(?:\+)/,/^(?:\^)/,/^(?:\()/,/^(?:\))/,/^(?:\{)/,/^(?:\})/,/^(?:<)/,/^(?:>)/,/^(?:=)/,/^(?:%)/,/^(?::)/,/^(?:;)/,/^(?:\.)/,/^(?:,)/,/^(?:!)/,/^(?:PI\b)/,/^(?:E\b)/,/^(?:$)/],
+rules: [/^(?:\s+)/,/^(?:\/\/.*)/,/^(?:if\b)/,/^(?:else\b)/,/^(?:for\b)/,/^(?:in\b)/,/^(?:import\b)/,/^(?:extend\b)/,/^(?:bowtie:content\b)/,/^(?:[0-9]+(\.[0-9]+)?\b)/,/^(?:[!|a-zA-Z][^:\s{};,]*)/,/^(?:\$[a-zA-Z][\w|.|\[|\]]*)/,/^(?:"[^\"]*")/,/^(?:\*)/,/^(?:\/)/,/^(?:-)/,/^(?:\+)/,/^(?:\^)/,/^(?:\()/,/^(?:\))/,/^(?:\{)/,/^(?:\})/,/^(?:<)/,/^(?:>)/,/^(?:=)/,/^(?:%)/,/^(?::)/,/^(?:;)/,/^(?:\.)/,/^(?:,)/,/^(?:!)/,/^(?:PI\b)/,/^(?:E\b)/,/^(?:$)/],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33],"inclusive":true}}
 });
 return lexer;

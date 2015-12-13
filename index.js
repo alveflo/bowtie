@@ -20,7 +20,7 @@ function compiler(filename, options) {
 
   var content = fs.readFileSync(filename, encoding);
   options = addCompiler(options);
-  options.filename = path.join(process.cwd(), filename);
+  options.filename = path.relative(process.cwd(), filename);
 
   return bowtie.compile(content, options);
 };

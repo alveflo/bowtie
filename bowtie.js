@@ -6,9 +6,14 @@ module.exports = {
     var extend = require('util')._extend;
     var clientCodeParser = require('./parsers/clientcodeparser.js');
     var parser = require('./grammar/grammar.js').parser;
-
     var beautify_html = require('js-beautify').html;
 
+    var regex = /\r?\n|\r/g;
+    var match;
+    while (match = regex.exec(content)) {
+      var m = match[0];
+      content = content.replace(m, ' ');
+    }
     // Preparse , i.e. rip out client code (script- and style blocks)
     // in order to skip parsing of these
     var preparsed = clientCodeParser.preParse(content);

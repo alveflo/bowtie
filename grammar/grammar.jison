@@ -12,7 +12,7 @@
 "in"                          return 'IN';
 "import"                      return 'IMPORT';
 "extend"                      return 'EXTEND';
-"content"                     return 'EXTENTIONCONTENTBLOCK';
+"bowtie:content"              return 'EXTENSIONCONTENTBLOCK';
 [0-9]+("."[0-9]+)?\b          return 'NUMBER';
 [!|a-zA-Z][^:\s{};,]*         return 'Identifier';
 \$[a-zA-Z][\w|.|\[|\]]*       return 'VariableIdentifier';
@@ -132,7 +132,7 @@ Content
     { $$ = [$1.substring(1, $1.length - 1)] }
   | VariableIdentifier
     { $$ = ["#{" + $1 + "}"] }
-  | EXTENTIONCONTENTBLOCK
+  | EXTENSIONCONTENTBLOCK
     { $$ = "<%=BOWTIE-CONTENT=%>" }
   | COMMENT
     { $$ = "" }
@@ -140,13 +140,13 @@ Content
 
 ImportStatement
   : IMPORT STRING
-    { $$ = yy.settings.$_compile_bowtie(path.join(process.cwd(), $2.substring(1, $2.length-1)), yy.settings) }
+    { $$ = yy.settings.$_compile_bowtie(path.join(path.parse(yy.settings.filename).dir, $2.substring(1, $2.length - 1)), yy.settings) }
   ;
 
 ExtendStatement
   : EXTEND STRING
     {
-      yy.parentTemplate = yy.settings.$_compile_bowtie(path.join(path.parse(yy.settings.filename).dir, $2.substring(1, $2.length - 1)), yy.settings.locals)
+      yy.parentTemplate = yy.settings.$_compile_bowtie(path.join(path.parse(yy.settings.filename).dir, $2.substring(1, $2.length - 1)), yy.settings)
       $$ = "";
     }
   ;
