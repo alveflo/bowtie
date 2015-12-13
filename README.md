@@ -9,9 +9,9 @@ C-style syntaxed expressive template engine for node inspired by Jade.
 - [x] Loops
 - [x] If-Else
 - [x] Mixins
+- [x] Extending
+- [x] Importing
 - [ ] Variables
-- [ ] Extending
-- [ ] Importing
 
 ## Example
 ```
