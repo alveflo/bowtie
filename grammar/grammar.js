@@ -87,7 +87,7 @@ case 1:
 
       var content = "";
       if (yy.parentTemplate) {
-        content = yy.settings.parsers.contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $$[$0-1][$$[$0-1].length-1]), yy.settings.locals);
+        content = yy.settings.parsers.contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $$[$0-1][$$[$0-1].length-1]), yy.settings);
       } else {
         content = yy.settings.parsers.contentParser.parseString($$[$0-1][$$[$0-1].length-1], yy.settings.locals);
       }
@@ -151,7 +151,7 @@ case 32:
  this.$ = "" 
 break;
 case 33:
- this.$ = yy.settings.$_compile_bowtie(path.join(process.cwd(), $$[$0].substring(1, $$[$0].length-1)), yy.settings.locals) 
+ this.$ = yy.settings.$_compile_bowtie(path.join(process.cwd(), $$[$0].substring(1, $$[$0].length-1)), yy.settings) 
 break;
 case 34:
 

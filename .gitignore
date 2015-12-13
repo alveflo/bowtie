@@ -1,8 +1,6 @@
 node_modules
-example.bow
-test.bow
-example.bow.html
-test.bow.html
+*.bow
+output
 coverage
 testfile.js
 gulpfile.js

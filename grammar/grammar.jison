@@ -56,7 +56,7 @@ PROGRAM
     {
       var content = "";
       if (yy.parentTemplate) {
-        content = yy.settings.parsers.contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $1[$1.length-1]), yy.settings.locals);
+        content = yy.settings.parsers.contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $1[$1.length-1]), yy.settings);
       } else {
         content = yy.settings.parsers.contentParser.parseString($1[$1.length-1], yy.settings.locals);
       }
@@ -140,7 +140,7 @@ Content
 
 ImportStatement
   : IMPORT STRING
-    { $$ = yy.settings.$_compile_bowtie(path.join(process.cwd(), $2.substring(1, $2.length-1)), yy.settings.locals) }
+    { $$ = yy.settings.$_compile_bowtie(path.join(process.cwd(), $2.substring(1, $2.length-1)), yy.settings) }
   ;
 
 ExtendStatement
