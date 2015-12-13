@@ -103,6 +103,7 @@ Statement
   | MixinDeclarationStatement
   | MixinCallStatement
   | Content
+  | ImportStatement
   ;
 
 StatementList
@@ -124,6 +125,11 @@ Content
     { $$ = ["#{" + $1 + "}"] }
   | COMMENT
     { $$ = "" }
+  ;
+
+ImportStatement
+  : IMPORT STRING
+    { $$ = yy.settings.$_compile_bowtie(path.join(process.cwd(), $2.substring(1, $2.length-1)), yy.settings) }
   ;
 
 OneLineTagStatement
@@ -228,10 +234,11 @@ ArgumentList
   ;
 
 %%
+var path = require('path');
 var variableBox = {};
-var tagParser = require(process.cwd() + '/parsers/tagparser.js');
-var loopParser = require(process.cwd() + '/parsers/loopparser.js');
-var mixinParserObj = require(process.cwd() + '/parsers/mixinparser.js');
+var tagParser = require(path.join(process.cwd(), 'parsers/tagparser.js'));
+var loopParser = require(path.join(process.cwd(), 'parsers/loopparser.js'));
+var mixinParserObj = require(path.join(process.cwd(), 'parsers/mixinparser.js'));
 var mixinParser = new mixinParserObj();
-var ifParser = require(process.cwd() + '/parsers/ifelseparser.js');
-var contentParser = require(process.cwd() + '/parsers/contentparser.js');
+var ifParser = require(path.join(process.cwd(), 'parsers/ifelseparser.js'));
+var contentParser = require(path.join(process.cwd(), 'parsers/contentparser.js'));

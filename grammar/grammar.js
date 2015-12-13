@@ -72,12 +72,12 @@
   }
 */
 var parser = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[2,24],$V1=[1,15],$V2=[1,20],$V3=[1,14],$V4=[1,19],$V5=[1,21],$V6=[1,22],$V7=[1,23],$V8=[5,11,14,17,28,29,34,36,41],$V9=[1,25],$Va=[1,28],$Vb=[5,11,14,17,27,28,29,34,36,41],$Vc=[2,28],$Vd=[5,11,14,17,27,28,29,34,36,41,44,50],$Ve=[1,44],$Vf=[8,9,10,11,14,15,17,44],$Vg=[1,50],$Vh=[1,51],$Vi=[1,54],$Vj=[44,50],$Vk=[9,10,11,14,15,17,44];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[2,25],$V1=[1,16],$V2=[1,21],$V3=[1,15],$V4=[1,20],$V5=[1,22],$V6=[1,23],$V7=[1,24],$V8=[1,25],$V9=[5,11,14,17,29,30,31,36,38,43],$Va=[1,27],$Vb=[1,30],$Vc=[5,11,14,17,28,29,30,31,36,38,43],$Vd=[2,29],$Ve=[5,11,14,17,28,29,30,31,36,38,43,46,52],$Vf=[1,47],$Vg=[8,9,10,11,14,15,17,46],$Vh=[1,53],$Vi=[1,54],$Vj=[1,57],$Vk=[46,52],$Vl=[9,10,11,14,15,17,46];
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"PROGRAM":3,"ProgramList":4,"EOF":5,"StatementList":6,"Operator":7,"=":8,"!":9,">":10,"<":11,"UnaryOperator":12,"Constant":13,"STRING":14,"NUMBER":15,"Expression":16,"Identifier":17,"Statement":18,"OneLineTagStatement":19,"BlockTagStatement":20,"ClientScriptBlockPlaceholder":21,"LoopStatement":22,"IfElseStatement":23,"MixinDeclarationStatement":24,"MixinCallStatement":25,"Content":26,"+":27,"VariableIdentifier":28,"COMMENT":29,":":30,"BlockStatement":31,"%":32,"{":33,"}":34,"LoopExpression":35,"FOR":36,"ForLoopNoIterationVariable":37,"ForLoopWithIterationVariable":38,"IfWithoutElseExpression":39,"IfElseExpression":40,"IF":41,"(":42,"IfStatement":43,")":44,"ELSE":45,"IN":46,".":47,"ArgumentList":48,"-":49,",":50,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",8:"=",9:"!",10:">",11:"<",14:"STRING",15:"NUMBER",17:"Identifier",27:"+",28:"VariableIdentifier",29:"COMMENT",30:":",32:"%",33:"{",34:"}",36:"FOR",41:"IF",42:"(",44:")",45:"ELSE",46:"IN",47:".",49:"-",50:","},
-productions_: [0,[3,2],[4,1],[7,2],[7,3],[7,2],[7,1],[7,1],[7,2],[7,2],[12,1],[13,1],[13,1],[16,1],[16,1],[18,1],[18,1],[18,1],[18,1],[18,1],[18,1],[18,1],[18,1],[6,2],[6,0],[26,3],[26,3],[26,1],[26,1],[26,1],[19,2],[19,3],[19,1],[20,2],[21,7],[31,3],[22,1],[35,2],[35,2],[23,1],[23,1],[39,5],[40,7],[43,2],[43,2],[43,0],[37,9],[38,6],[25,4],[24,7],[48,3],[48,3],[48,1],[48,1]],
+symbols_: {"error":2,"PROGRAM":3,"ProgramList":4,"EOF":5,"StatementList":6,"Operator":7,"=":8,"!":9,">":10,"<":11,"UnaryOperator":12,"Constant":13,"STRING":14,"NUMBER":15,"Expression":16,"Identifier":17,"Statement":18,"OneLineTagStatement":19,"BlockTagStatement":20,"ClientScriptBlockPlaceholder":21,"LoopStatement":22,"IfElseStatement":23,"MixinDeclarationStatement":24,"MixinCallStatement":25,"Content":26,"ImportStatement":27,"+":28,"VariableIdentifier":29,"COMMENT":30,"IMPORT":31,":":32,"BlockStatement":33,"%":34,"{":35,"}":36,"LoopExpression":37,"FOR":38,"ForLoopNoIterationVariable":39,"ForLoopWithIterationVariable":40,"IfWithoutElseExpression":41,"IfElseExpression":42,"IF":43,"(":44,"IfStatement":45,")":46,"ELSE":47,"IN":48,".":49,"ArgumentList":50,"-":51,",":52,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",8:"=",9:"!",10:">",11:"<",14:"STRING",15:"NUMBER",17:"Identifier",28:"+",29:"VariableIdentifier",30:"COMMENT",31:"IMPORT",32:":",34:"%",35:"{",36:"}",38:"FOR",43:"IF",44:"(",46:")",47:"ELSE",48:"IN",49:".",51:"-",52:","},
+productions_: [0,[3,2],[4,1],[7,2],[7,3],[7,2],[7,1],[7,1],[7,2],[7,2],[12,1],[13,1],[13,1],[16,1],[16,1],[18,1],[18,1],[18,1],[18,1],[18,1],[18,1],[18,1],[18,1],[18,1],[6,2],[6,0],[26,3],[26,3],[26,1],[26,1],[26,1],[27,2],[19,2],[19,3],[19,1],[20,2],[21,7],[33,3],[22,1],[37,2],[37,2],[23,1],[23,1],[41,5],[42,7],[45,2],[45,2],[45,0],[39,9],[40,6],[25,4],[24,7],[50,3],[50,3],[50,1],[50,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -88,7 +88,7 @@ case 1:
       return contentParser.parseString($$[$0-1][0], yy.settings);
     
 break;
-case 2: case 11: case 37: case 38:
+case 2: case 11: case 39: case 40:
 this.$ = $$[$0]
 break;
 case 3:
@@ -118,89 +118,92 @@ break;
 case 12:
 this.$ = Number(yytext)
 break;
-case 23:
+case 24:
 
       this.$ = $$[$0-1].concat($$[$0])
     
 break;
-case 24: case 45:
+case 25: case 47:
  this.$ = [] 
 break;
-case 25:
+case 26:
  this.$ = $$[$0-2].concat($$[$0].substring(1, $$[$0].length - 1)) 
 break;
-case 26:
+case 27:
  this.$ = $$[$0-2].concat("#{" + $$[$0] + "}") 
 break;
-case 27:
+case 28:
  this.$ = [$$[$0].substring(1, $$[$0].length - 1)] 
 break;
-case 28:
+case 29:
  this.$ = ["#{" + $$[$0] + "}"] 
 break;
-case 29:
+case 30:
  this.$ = "" 
 break;
-case 30:
-this.$ = $$[$0-1].concat($$[$0])
-break;
 case 31:
-this.$ = tagParser.parseTag($$[$0-2], $$[$0].join(' '))
+ this.$ = yy.settings.$_compile_bowtie(path.join(process.cwd(), $$[$0].substring(1, $$[$0].length-1)), yy.settings) 
 break;
 case 32:
-this.$ = tagParser.parseTag($$[$0])
+this.$ = $$[$0-1].concat($$[$0])
 break;
 case 33:
-this.$ = tagParser.parseTag($$[$0-1], $$[$0])
+this.$ = tagParser.parseTag($$[$0-2], $$[$0].join(' '))
 break;
 case 34:
-this.$ = $$[$0-6]+$$[$0-5]+$$[$0-4]+$$[$0-3]+$$[$0-2]+$$[$0-1]+$$[$0]
+this.$ = tagParser.parseTag($$[$0])
 break;
 case 35:
+this.$ = tagParser.parseTag($$[$0-1], $$[$0])
+break;
+case 36:
+this.$ = $$[$0-6]+$$[$0-5]+$$[$0-4]+$$[$0-3]+$$[$0-2]+$$[$0-1]+$$[$0]
+break;
+case 37:
 this.$ = $$[$0-1].join(' ')
 break;
-case 41:
+case 43:
 
-      this.$ = ifParser.parseIfWithoutElse($$[$0-2], $$[$0]);
+      this.$ = ifParser.parseIfWithoutElse($$[$0-2], $$[$0], yy.settings);
     
 break;
-case 42:
+case 44:
 
-      this.$ = ifParser.parseIfElse($$[$0-4],$$[$0-2],$$[$0]);
+      this.$ = ifParser.parseIfElse($$[$0-4],$$[$0-2],$$[$0], yy.settings);
     
 break;
-case 43: case 44:
+case 45: case 46:
  this.$ = $$[$0-1].concat($$[$0]) 
 break;
-case 46:
+case 48:
 
       this.$ = loopParser.loopBasic($$[$0-7],Number($$[$0-5]),Number($$[$0-2]),$$[$0]);
     
 break;
-case 47:
+case 49:
 
       this.$ = loopParser.loopObject($$[$0-4], $$[$0-2], $$[$0], yy.settings);
     
 break;
-case 48:
+case 50:
 
       this.$ = mixinParser.evalMixin($$[$0-3], $$[$0-1]);
     
 break;
-case 49:
+case 51:
 
       this.$ = mixinParser.newMixin($$[$0-6], $$[$0-2], $$[$0]);
     
 break;
-case 50: case 51:
+case 52: case 53:
  this.$ = $$[$0-2].concat($$[$0]) 
 break;
-case 52: case 53:
+case 54: case 55:
  this.$ = [$$[$0]] 
 break;
 }
 },
-table: [o([5,11,14,17,28,29,36,41],$V0,{3:1,4:2,6:3}),{1:[3]},{5:[1,4]},{5:[2,2],11:$V1,14:$V2,17:$V3,18:5,19:6,20:7,21:8,22:9,23:10,24:11,25:12,26:13,28:$V4,29:$V5,35:16,36:$V6,39:17,40:18,41:$V7},{1:[2,1]},o($V8,[2,23]),o([5,34],[2,15],{19:6,20:7,21:8,22:9,23:10,24:11,25:12,26:13,35:16,39:17,40:18,18:24,11:$V1,14:$V2,17:$V3,28:$V4,29:$V5,36:$V6,41:$V7}),o($V8,[2,16]),o($V8,[2,17]),o($V8,[2,18]),o($V8,[2,19]),o($V8,[2,20]),o($V8,[2,21]),o($V8,[2,22],{27:$V9}),o($V8,[2,32],{31:27,30:[1,26],33:$Va}),{32:[1,29]},o($V8,[2,36]),o($V8,[2,39]),o($V8,[2,40]),o($Vb,$Vc,{42:[1,31],49:[1,30]}),o($Vd,[2,27]),o($Vd,[2,29]),{37:32,38:33,42:[1,34]},{42:[1,35]},o($V8,[2,30]),{14:[1,36],28:[1,37]},{14:$V2,26:38,28:[1,39],29:$V5},o($V8,[2,33]),o([11,14,17,28,29,34,36,41],$V0,{6:40}),{8:[1,41]},{10:[1,42]},{14:$V2,26:45,28:$Ve,29:$V5,48:43},o($V8,[2,37]),o($V8,[2,38]),{28:[1,46]},o($Vf,[2,45],{43:47}),o($Vd,[2,25]),o($Vd,[2,26]),o($V8,[2,31],{27:$V9}),o($Vb,$Vc),{11:$V1,14:$V2,17:$V3,18:5,19:6,20:7,21:8,22:9,23:10,24:11,25:12,26:13,28:$V4,29:$V5,34:[1,48],35:16,36:$V6,39:17,40:18,41:$V7},{13:49,14:$Vg,15:$Vh},{42:[1,52]},{44:[1,53],50:$Vi},o([27,44,50],[2,52]),o($Vj,[2,53],{27:$V9}),{46:[1,55]},{7:58,8:[1,61],9:[1,62],10:[1,63],11:[1,64],13:60,14:$Vg,15:$Vh,16:57,17:[1,59],44:[1,56]},o([5,11,14,17,28,29,34,36,41,45],[2,35]),{8:[1,65]},o($Vf,[2,11]),o($Vf,[2,12]),{14:$V2,26:45,28:$Ve,29:$V5,48:66},o($V8,[2,48]),{14:$V2,26:68,28:[1,67],29:$V5},{15:[1,69],28:[1,70]},{31:71,33:$Va},o($Vf,[2,43]),o($Vf,[2,44]),o($Vf,[2,13]),o($Vf,[2,14]),{8:[1,72]},{8:[1,73]},o($Vk,[2,6],{8:[1,74]}),o($Vk,[2,7],{8:[1,75]}),{32:[1,76]},{44:[1,77],50:$Vi},o($Vj,[2,50],{27:$Vc}),o($Vj,[2,51],{27:$V9}),{47:[1,78]},{44:[1,79]},o($V8,[2,41],{45:[1,80]}),o($Vk,[2,3],{8:[1,81]}),o($Vf,[2,5]),o($Vf,[2,8]),o($Vf,[2,9]),{10:[1,82]},{31:83,33:$Va},{47:[1,84]},{31:85,33:$Va},{31:86,33:$Va},o($Vf,[2,4]),o($V8,[2,34]),o($V8,[2,49]),{15:[1,87]},o($V8,[2,47]),o($V8,[2,42]),{44:[1,88]},{31:89,33:$Va},o($V8,[2,46])],
+table: [o([5,11,14,17,29,30,31,38,43],$V0,{3:1,4:2,6:3}),{1:[3]},{5:[1,4]},{5:[2,2],11:$V1,14:$V2,17:$V3,18:5,19:6,20:7,21:8,22:9,23:10,24:11,25:12,26:13,27:14,29:$V4,30:$V5,31:$V6,37:17,38:$V7,41:18,42:19,43:$V8},{1:[2,1]},o($V9,[2,24]),o([5,36],[2,15],{19:6,20:7,21:8,22:9,23:10,24:11,25:12,26:13,27:14,37:17,41:18,42:19,18:26,11:$V1,14:$V2,17:$V3,29:$V4,30:$V5,31:$V6,38:$V7,43:$V8}),o($V9,[2,16]),o($V9,[2,17]),o($V9,[2,18]),o($V9,[2,19]),o($V9,[2,20]),o($V9,[2,21]),o($V9,[2,22],{28:$Va}),o($V9,[2,23]),o($V9,[2,34],{33:29,32:[1,28],35:$Vb}),{34:[1,31]},o($V9,[2,38]),o($V9,[2,41]),o($V9,[2,42]),o($Vc,$Vd,{44:[1,33],51:[1,32]}),o($Ve,[2,28]),o($Ve,[2,30]),{14:[1,34]},{39:35,40:36,44:[1,37]},{44:[1,38]},o($V9,[2,32]),{14:[1,39],29:[1,40]},{14:$V2,26:41,29:[1,42],30:$V5},o($V9,[2,35]),o([11,14,17,29,30,31,36,38,43],$V0,{6:43}),{8:[1,44]},{10:[1,45]},{14:$V2,26:48,29:$Vf,30:$V5,50:46},o($V9,[2,31]),o($V9,[2,39]),o($V9,[2,40]),{29:[1,49]},o($Vg,[2,47],{45:50}),o($Ve,[2,26]),o($Ve,[2,27]),o($V9,[2,33],{28:$Va}),o($Vc,$Vd),{11:$V1,14:$V2,17:$V3,18:5,19:6,20:7,21:8,22:9,23:10,24:11,25:12,26:13,27:14,29:$V4,30:$V5,31:$V6,36:[1,51],37:17,38:$V7,41:18,42:19,43:$V8},{13:52,14:$Vh,15:$Vi},{44:[1,55]},{46:[1,56],52:$Vj},o([28,46,52],[2,54]),o($Vk,[2,55],{28:$Va}),{48:[1,58]},{7:61,8:[1,64],9:[1,65],10:[1,66],11:[1,67],13:63,14:$Vh,15:$Vi,16:60,17:[1,62],46:[1,59]},o([5,11,14,17,29,30,31,36,38,43,47],[2,37]),{8:[1,68]},o($Vg,[2,11]),o($Vg,[2,12]),{14:$V2,26:48,29:$Vf,30:$V5,50:69},o($V9,[2,50]),{14:$V2,26:71,29:[1,70],30:$V5},{15:[1,72],29:[1,73]},{33:74,35:$Vb},o($Vg,[2,45]),o($Vg,[2,46]),o($Vg,[2,13]),o($Vg,[2,14]),{8:[1,75]},{8:[1,76]},o($Vl,[2,6],{8:[1,77]}),o($Vl,[2,7],{8:[1,78]}),{34:[1,79]},{46:[1,80],52:$Vj},o($Vk,[2,52],{28:$Vd}),o($Vk,[2,53],{28:$Va}),{49:[1,81]},{46:[1,82]},o($V9,[2,43],{47:[1,83]}),o($Vl,[2,3],{8:[1,84]}),o($Vg,[2,5]),o($Vg,[2,8]),o($Vg,[2,9]),{10:[1,85]},{33:86,35:$Vb},{49:[1,87]},{33:88,35:$Vb},{33:89,35:$Vb},o($Vg,[2,4]),o($V9,[2,36]),o($V9,[2,51]),{15:[1,90]},o($V9,[2,49]),o($V9,[2,44]),{46:[1,91]},{33:92,35:$Vb},o($V9,[2,48])],
 defaultActions: {4:[2,1]},
 parseError: function parseError(str, hash) {
     if (hash.recoverable) {
@@ -347,13 +350,14 @@ parse: function parse(input) {
     return true;
 }};
 
+var path = require('path');
 var variableBox = {};
-var tagParser = require(process.cwd() + '/parsers/tagparser.js');
-var loopParser = require(process.cwd() + '/parsers/loopparser.js');
-var mixinParserObj = require(process.cwd() + '/parsers/mixinparser.js');
+var tagParser = require(path.join(process.cwd(), 'parsers/tagparser.js'));
+var loopParser = require(path.join(process.cwd(), 'parsers/loopparser.js'));
+var mixinParserObj = require(path.join(process.cwd(), 'parsers/mixinparser.js'));
 var mixinParser = new mixinParserObj();
-var ifParser = require(process.cwd() + '/parsers/ifelseparser.js');
-var contentParser = require(process.cwd() + '/parsers/contentparser.js');
+var ifParser = require(path.join(process.cwd(), 'parsers/ifelseparser.js'));
+var contentParser = require(path.join(process.cwd(), 'parsers/contentparser.js'));
 /* generated by jison-lex 0.3.4 */
 var lexer = (function(){
 var lexer = ({
@@ -684,23 +688,23 @@ var YYSTATE=YY_START;
 switch($avoiding_name_collisions) {
 case 0:/* skip whitespace */
 break;
-case 1:return 29
+case 1:return 30
 break;
-case 2:return 41;
+case 2:return 43;
 break;
-case 3:return 45;
+case 3:return 47;
 break;
-case 4:return 36;
+case 4:return 38;
 break;
-case 5:return 46;
+case 5:return 48;
 break;
-case 6:return 'IMPORT';
+case 6:return 31;
 break;
 case 7:return 15;
 break;
 case 8:return 17;
 break;
-case 9:return 28;
+case 9:return 29;
 break;
 case 10:return 14;
 break;
@@ -708,19 +712,19 @@ case 11:return '*';
 break;
 case 12:return '/';
 break;
-case 13:return 49;
+case 13:return 51;
 break;
-case 14:return 27;
+case 14:return 28;
 break;
 case 15:return '^';
 break;
-case 16:return 42;
+case 16:return 44;
 break;
-case 17:return 44;
+case 17:return 46;
 break;
-case 18:return 33;
+case 18:return 35;
 break;
-case 19:return 34;
+case 19:return 36;
 break;
 case 20:return 11;
 break;
@@ -728,15 +732,15 @@ case 21:return 10;
 break;
 case 22:return 8;
 break;
-case 23:return 32;
+case 23:return 34;
 break;
-case 24:return 30;
+case 24:return 32;
 break;
 case 25:return ';';
 break;
-case 26:return 47;
+case 26:return 49;
 break;
-case 27:return 50;
+case 27:return 52;
 break;
 case 28:return 9;
 break;

@@ -4,20 +4,36 @@ var extend = require('util')._extend;
 var ext = require('gulp-util').replaceExtension;
 var PluginError = require('gulp-util').PluginError;
 
+function addCompiler(options) {
+  if (options.locals) {
+    options.locals = extend(options.locals, {
+      "$_compile_bowtie": compiler
+    });
+  } else {
+    options.locals = {
+      "$_compile_bowtie": compiler
+    };
+  }
+  return options;
+};
+
+function compiler(filename, options) {
+  var fs = require('fs');
+  var encoding = 'utf8';
+  if (options.encoding)
+    encoding = options.encoding;
+
+  var content = fs.readFileSync(filename, encoding);
+  options = addCompiler(options);
+
+  return bowtie.compile(content, options);
+};
+
 module.exports = {
-  compiler: function(filename, options) {
-    var fs = require('fs');
-    var encoding = 'utf8';
-    if (options.encoding)
-      encoding = options.encoding;
-
-    var content = fs.readFileSync(filename, encoding);
-
-    return bowtie.compile(content, options);
-  },
+  "compiler": compiler,
   gulp: function(options) {
     var through = require('through2');
-    var opts = extend({}, options);
+    var opts = extend({}, addCompiler(options));
 
     function CompileBowtie(file, enc, cb) {
       opts.filename = file.path;

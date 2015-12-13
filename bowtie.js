@@ -21,6 +21,7 @@ module.exports = {
 
     // Set settings to parser scope
     parser.yy.settings = {};
+
     if (settings.locals) {
       parser.yy.settings = extend({}, settings.locals);
     }
