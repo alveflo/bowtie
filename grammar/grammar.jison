@@ -230,7 +230,11 @@ ForLoopWithIterationVariable
   ;
 
 MixinCallStatement
-  : VariableIdentifier "(" ArgumentList ")"
+  : VariableIdentifier "(" ArgumentList ")" BlockStatement
+    {
+      $$ = yy.settings.parsers.mixinParser.evalMixin($1, $3, $5);
+    }
+  | VariableIdentifier "(" ArgumentList ")"
     {
       $$ = yy.settings.parsers.mixinParser.evalMixin($1, $3);
     }

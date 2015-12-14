@@ -12,7 +12,7 @@ mixin.prototype.newMixin = function(identifier, argumentlist, block) {
   this.mixinBox[identifier] = block;
 };
 
-mixin.prototype.evalMixin = function(identifier, argumentlist) {
+mixin.prototype.evalMixin = function(identifier, argumentlist, content) {
   if (!this.mixinBox.hasOwnProperty(identifier))
     throw new Error("No such mixin '" + identifier + "'!");
   var block = this.mixinBox[identifier];
@@ -23,6 +23,9 @@ mixin.prototype.evalMixin = function(identifier, argumentlist) {
     placeholder = "<%#"+i+"#%>";
     while (block.indexOf(placeholder) > 0)
       block = block.replace(placeholder, argumentlist[i]);
+  }
+  if (content) {
+    block = block.replace("<%=BOWTIE-CONTENT=%>", content);
   }
   return block;
 };
