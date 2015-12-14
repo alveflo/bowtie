@@ -21,7 +21,7 @@ This project is currently in it's pre-alpha stage. Current features:
 $ npm install bowtie-js
 ```
 ##### Syntax highlighting
-Syntax highlighting and auto completion is available for [Atom editor](https://atom.io/), currently in a alpha non-released stage. Available [here](https://github.com/bowtie-js/atom-language-bowtie).
+Syntax highlighting and auto completion is available for [Atom editor](https://atom.io/), currently in a alpha non-released stage. Available [here](https://github.com/bowtie-js/atom-language-bowtie). Syntax highlighting is triggered on .bow-files.
 ```
 $ git clone https://github.com/bowtie-js/atom-language-bowtie.git
 $ cd atom-language-bowtie
