@@ -15,6 +15,22 @@ describe('Self closing tags', function() {
       assert.equal('<p class="className" ng-model="foo">foo</p>', parser.parseTag(tag, "foo").trim());
     });
 
+    it ('Should return <p class="class-name class-name-foo" id="foo bar foo-bar" ng-model="foo">foo</p>', function() {
+      var tag = 'p.class-name.class-name-foo#foo-bar(ng-model="foo"): foo'
+      assert.equal('<p id="foo-bar" class="class-name class-name-foo" ng-model="foo">foo</p>', parser.parseTag(tag, "foo").trim());
+    });
+
+    it ('Should return <script src="foo-bar.js">alert(-1)</script>', function() {
+      var tag = 'script(src="foo-bar.js")'
+      assert.equal('<script src="foo-bar.js">alert(-1)</script>', parser.parseTag(tag, "alert(-1)").trim());
+    });
+
+    it ('Should return <link rel="stylesheet" href="/foo/foo-bar.css" />', function() {
+      var tag = 'link(rel="stylesheet" href="/foo/foo-bar.css")'
+      assert.equal('<link rel="stylesheet" href="/foo/foo-bar.css" />', parser.parseTag(tag).trim());
+    });
+
+
     it ('Should return <button id="foo" class="className1 className2">{{foo.bar}}</button>', function() {
       var tag = 'button#foo.className1.className2'
       assert.equal('<button id="foo" class="className1 className2">{{foo.bar}}</button>', parser.parseTag(tag, "{{foo.bar}}").trim());

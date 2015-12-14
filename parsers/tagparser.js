@@ -11,7 +11,7 @@ function getTagName(tag) {
 }
 
 function getAttributes(tag) {
-  var regex = /(\(.*\))/;
+  var regex = /(\([^\)]*\))/;
   var match = regex.exec(tag);
   if (match != null) {
     return " " + match[0].replace('(','').replace(')','');
@@ -20,7 +20,7 @@ function getAttributes(tag) {
 }
 
 function getClasses(tag) {
-  var regex = /(\.[a-zA-Z]\w+)/g;
+  var regex = /(\.[a-zA-Z][\w|-]*)/g;
   var classes = [];
   var match;
   tag = tag.replace(/\(\S+[^\)]\)/, '');
@@ -34,7 +34,7 @@ function getClasses(tag) {
 }
 
 function getIds(tag) {
-  var regex = /(#[a-zA-Z]+)/g;
+  var regex = /(#[a-zA-Z][\w|-]*)/g;
   var classes = [];
   var match;
   tag = tag.replace(/\(\S+[^\)]\)/, '');
@@ -49,8 +49,9 @@ function getIds(tag) {
 
 module.exports = {
   parseTag: function(tag, body) {
-    var tagName = getTagName(tag);
     var attributes = getAttributes(tag);
+    tag = tag.replace('(' + attributes.trim() + ')', "");
+    var tagName = getTagName(tag);
     var classes = getClasses(tag);
     var ids = getIds(tag);
 

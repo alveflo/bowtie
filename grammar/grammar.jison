@@ -161,7 +161,9 @@ OneLineTagStatement
   ;
 
 BlockTagStatement
-  : Identifier BlockStatement
+  : BlockTagStatement Statement
+    {$$ = $1.concat($2)}
+  | Identifier BlockStatement
     {$$ = yy.settings.parsers.tagParser.parseTag($1, $2)}
   ;
 
