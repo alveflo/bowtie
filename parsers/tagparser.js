@@ -52,7 +52,6 @@ module.exports = {
     var attributes = getAttributes(tag);
     tag = tag.replace('(' + attributes.trim() + ')', "");
     var tagName = getTagName(tag);
-    console.log(tagName);
     // script without content must not be self closing,
     // since it's not valid html. so we need to compensate
     // for that...
