@@ -25,6 +25,12 @@ describe('Self closing tags', function() {
       assert.equal('<script src="foo-bar.js">alert(-1)</script>', parser.parseTag(tag, "alert(-1)").trim());
     });
 
+    it ('Should return <script src="foo-bar.js"></script>', function() {
+      var tag = 'script(src="foo-bar.js")'
+      assert.equal('<script src="foo-bar.js"></script>', parser.parseTag(tag).trim());
+    });
+
+
     it ('Should return <link rel="stylesheet" href="/foo/foo-bar.css" />', function() {
       var tag = 'link(rel="stylesheet" href="/foo/foo-bar.css")'
       assert.equal('<link rel="stylesheet" href="/foo/foo-bar.css" />', parser.parseTag(tag).trim());

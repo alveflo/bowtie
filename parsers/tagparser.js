@@ -52,6 +52,13 @@ module.exports = {
     var attributes = getAttributes(tag);
     tag = tag.replace('(' + attributes.trim() + ')', "");
     var tagName = getTagName(tag);
+    console.log(tagName);
+    // script without content must not be self closing,
+    // since it's not valid html. so we need to compensate
+    // for that...
+    if ((tagName.toLowerCase() == 'script' && !body) || body) {
+      var closeTag = true;
+    }
     var classes = getClasses(tag);
     var ids = getIds(tag);
 
@@ -59,7 +66,9 @@ module.exports = {
       return '';
     }
 
-    if (body) {
+    if (closeTag) {
+      if (!body)
+        body = "";
       return '<'+tagName+ids+classes+attributes+'>'+body+'</'+tagName+'> ';
     } else {
       if (tagName.indexOf('!') === 0)
