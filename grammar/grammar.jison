@@ -5,7 +5,6 @@
 
 %%
 \s+                                          /* skip whitespace */
-\/\/.*                                       return 'COMMENT'
 "if"                                         return 'IF';
 "else"                                       return 'ELSE';
 "for"                                        return 'FOR';
@@ -134,8 +133,6 @@ Content
     { $$ = ["#{" + $1 + "}"] }
   | EXTENSIONCONTENTBLOCK
     { $$ = "<%=BOWTIE-CONTENT=%>" }
-  | COMMENT
-    { $$ = "" }
   ;
 
 ImportStatement

@@ -8,12 +8,24 @@ module.exports = {
     var parser = require('./grammar/grammar.js').parser;
     var beautify_html = require('js-beautify').html;
 
-    var regex = /\r?\n|\r/g;
+
+    // Remove comments...
+    var regex = /\s*\/\/.*\r?\n|\r/g;
     var match;
+    var tempstr = content;
     while (match = regex.exec(content)) {
       var m = match[0];
-      content = content.replace(m, ' ');
+      tempstr = tempstr.replace(m, "");
     }
+    content = tempstr;
+    tempstr = content;
+
+    regex = /\r?\n|\r/g;
+    while (match = regex.exec(content)) {
+      var m = match[0];
+      tempstr = content.replace(m, ' ');
+    }
+    content = tempstr;
     // Preparse , i.e. rip out client code (script- and style blocks)
     // in order to skip parsing of these
     var preparsed = clientCodeParser.preParse(content);
