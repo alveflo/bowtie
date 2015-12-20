@@ -87,7 +87,7 @@ case 1:
 
       var content = "";
       if (yy.parentTemplate) {
-        content = yy.settings.parsers.contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $$[$0-1][$$[$0-1].length-1]), yy.settings);
+        content = yy.settings.parsers.contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $$[$0-1][$$[$0-1].length-1]), yy.settings.locals);
       } else {
         content = yy.settings.parsers.contentParser.parseString($$[$0-1][$$[$0-1].length-1], yy.settings.locals);
       }

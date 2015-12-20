@@ -55,7 +55,7 @@ PROGRAM
     {
       var content = "";
       if (yy.parentTemplate) {
-        content = yy.settings.parsers.contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $1[$1.length-1]), yy.settings);
+        content = yy.settings.parsers.contentParser.parseString(yy.parentTemplate.replace("<%=BOWTIE-CONTENT=%>", $1[$1.length-1]), yy.settings.locals);
       } else {
         content = yy.settings.parsers.contentParser.parseString($1[$1.length-1], yy.settings.locals);
       }
