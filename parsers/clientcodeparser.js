@@ -5,7 +5,7 @@ function ripOutCode(str) {
   var blocks = [];
   var blockCount = 0;
   var parsedStr = str;
-  var regex = /<(script|style).*{/g;
+  var regex = /(script|style).*{/g;
   var match,
       block,
       substr,
