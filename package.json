@@ -1,6 +1,6 @@
 {
   "name": "bowtie-js",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Yet another template engine",
   "main": "index.js",
   "directories": {
