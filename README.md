@@ -50,7 +50,7 @@ gulp.task('bowtie', function() {
 ```
 
 ### Example
-```
+```erlang
 !doctype("html")
 html {
   head {
